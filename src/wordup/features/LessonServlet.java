@@ -1,4 +1,4 @@
-package wordup.lesson;
+package wordup.features;
 
 import java.io.File;
 import java.io.IOException;
@@ -169,7 +169,7 @@ public class LessonServlet extends HttpServlet {
 		} else if (action.equals("review")) {
 			// study the lesson or take a quiz
 			String study = request.getParameter("study");
-			String quizMe = request.getParameter("quizme");
+			String quizMe = request.getParameter("quizMe");
 			int lessonID = Integer.parseInt(request.getParameter("lessonID"));
 			ArrayList<Card> cards = null;
 			if (lessonID != 0) {

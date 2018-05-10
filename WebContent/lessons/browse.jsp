@@ -42,7 +42,7 @@
 				<td>${lessonAuthor.lesson.accessLevel}</td>
 				<td>${lessonAuthor.lesson.dateCreated}</td>
 				<td><input type="submit" id="done" name="study" value="Study">
-					<input type="submit" id="done" name="quiz" value="Quiz Me!"></td>
+					<input type="submit" id="done" name="quizMe" value="Quiz Me!"></td>
 			</tr>
 		</c:forEach>
 	</table>

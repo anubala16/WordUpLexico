@@ -19,12 +19,21 @@
   </servlet>
   <servlet>
     <servlet-name>LessonServlet</servlet-name>
-    <servlet-class>wordup.lesson.LessonServlet</servlet-class>
+    <servlet-class>wordup.features.LessonServlet</servlet-class>
   </servlet>
    <servlet>
     <servlet-name>DashboardServlet</servlet-name>
     <servlet-class>wordup.account.DashboardServlet</servlet-class>
   </servlet>
+   <servlet>
+    <servlet-name>AttemptServlet</servlet-name>
+    <servlet-class>wordup.features.AttemptServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AttemptServlet</servlet-name>
+    <url-pattern>/gradeattempt</url-pattern>
+    <url-pattern>/viewattempt</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DashboardServlet</servlet-name>
     <url-pattern>/dashboard</url-pattern>

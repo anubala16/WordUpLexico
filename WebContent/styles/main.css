@@ -201,6 +201,7 @@ td.cardWord {
 	height: 3em;
 	text-align: center;
 	background-color: #00004d;
+	border-bottom: 8px solid #ff0066;
 	color: white;
 	font-size: 3em;
 	font-weight: bold;
@@ -212,7 +213,7 @@ td.cardDesc {
 	height: 4em;
 	text-align: center;
 	background-color: white;
-	border-bottom: 5px solid black;
+	border-bottom: 5px solid #00004d;
 	color: #4a0868;
 	font-size: 2em; 
 	font-weight: italic; 
