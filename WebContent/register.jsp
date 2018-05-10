@@ -13,6 +13,7 @@
 	<h1>Ready for your goals to take flight?</h1>
 </header>
 <section>
+	<c:if test="${errors != null }">
 	<table>
 		<c:forEach var="error" items="${errors}">
 			<tr>
@@ -20,6 +21,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	</c:if>
 	<form action="register" method="post">
 		<input type="hidden" name="action" value="register"> <label>First
 			Name: </label> <input type="text" name="firstName" id="fName" value=""

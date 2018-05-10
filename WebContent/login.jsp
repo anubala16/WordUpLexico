@@ -13,13 +13,15 @@
 	<h1>My Word-Up Account Sign-in</h1>
 </header>
 <section>
-	<table>
-		<c:forEach var="error" items="${errors}">
-			<tr>
-				<td class="errorMsg">${error}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<c:if test="${errors != null }">
+		<table>
+			<c:forEach var="error" items="${errors}">
+				<tr>
+					<td class="errorMsg">${error}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:if>
 	<p class="successMsg">${success}</p>
 	<form action="login" method="post">
 		<input type="hidden" name="action" value="login"> <label>Email:

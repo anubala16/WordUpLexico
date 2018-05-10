@@ -85,6 +85,7 @@ public class DashboardServlet extends HttpServlet {
 			// TODO not yet done!! 
 		} else {
 			System.out.println("Unknown value. Not sure what to do");
+			request.removeAttribute("lesson");
 			url = "/welcome.jsp";
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);

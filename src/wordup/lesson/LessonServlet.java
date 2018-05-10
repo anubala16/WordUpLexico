@@ -19,11 +19,13 @@ import wordup.business.Lesson;
 import wordup.business.User;
 import wordup.dataUtil.CardDBUtil;
 import wordup.dataUtil.LessonDBUtil;
+import wordup.dataUtil.LessonDBUtil.LessonAuthor;
 
 /**
  * Servlet implementation class LessonServlet
  */
-// @WebServlet({ "/LessonServlet", "/lessons/create", "/lessons/study", "lessons/myLessons",
+// @WebServlet({ "/LessonServlet", "/lessons/create", "/lessons/study",
+// "lessons/myLessons",
 // "/lessons/quiz" })
 public class LessonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,7 +45,8 @@ public class LessonServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
+		// response.getWriter().append("Served at:
+		// ").append(request.getContextPath());
 	}
 
 	/**
@@ -59,9 +62,9 @@ public class LessonServlet extends HttpServlet {
 		if (action == null) {
 
 			action = "refresh"; // default action
-			getServletContext().getRequestDispatcher("/lessons/create.jsp").forward(request, response);
+			getServletContext().getRequestDispatcher("/welcome.jsp").forward(request, response);
 		}
-
+		ArrayList<String> errors = new ArrayList<String>();
 		// perform action and set URL to appropriate page
 		String success = "";
 		String url = "/lessons/create.jsp";
@@ -75,7 +78,6 @@ public class LessonServlet extends HttpServlet {
 			User user = (User) request.getSession().getAttribute("user");
 			System.out.println("creating lesson.." + path);
 
-			ArrayList<String> errors = new ArrayList<String>();
 			if (user == null) {
 			}
 
@@ -159,11 +161,55 @@ public class LessonServlet extends HttpServlet {
 				request.setAttribute("success", success);
 				request.setAttribute("lesson", newLesson);
 			}
-
-			request.setAttribute("errors", errors);
-
-			getServletContext().getRequestDispatcher(url).forward(request, response);
+			
+			/** done at end of method */
+			// request.setAttribute("errors", errors);
+ 			// getServletContext().getRequestDispatcher(url).forward(request,
+			// response);
+		} else if (action.equals("review")) {
+			// study the lesson or take a quiz
+			String study = request.getParameter("study");
+			String quizMe = request.getParameter("quizme");
+			int lessonID = Integer.parseInt(request.getParameter("lessonID"));
+			ArrayList<Card> cards = null;
+			if (lessonID != 0) {
+				cards = CardDBUtil.getLessonCards(lessonID);
+				request.setAttribute("cards", cards);
+				LessonAuthor la = LessonDBUtil.getLessonAuthor(lessonID);
+				if (la == null) {
+					errors.add("Lesson does not exist. Please go back to catalog and choose a lesson that exists.");
+				} else {
+					request.setAttribute("lessonAuthor", la);
+					int cardCount = cards.size();
+					/**
+					int[] numbers = new int[cardCount];
+					for (int i = 0; i < cardCount; i++) {
+						numbers[i] = i+1;
+					}
+					*/
+					request.setAttribute("cardCount", cardCount);
+					System.out.println("found " + cardCount + " cards for lesson " + lessonID + "! ");
+				}
+			}
+			if (study != null) {
+				// study button pressed
+				System.out.println("User wants to study lesson " + lessonID);
+				url = "/lessons/study.jsp";
+			} else if (quizMe != null) {
+				// quiz me button functionality
+				System.out.println("User wants to take lesson " + lessonID + " quiz.");
+				url = "/lessons/takequiz.jsp";
+			} else {
+				// refresh
+				System.out.println("Refreshing browse page. ");
+				url = "/lessons/browse.jsp";
+			}
 		}
+
+		request.setAttribute("errors", errors);
+
+		getServletContext().getRequestDispatcher(url).forward(request, response);
+
 	}
 
 }

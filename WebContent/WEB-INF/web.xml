@@ -31,7 +31,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>LessonServlet</servlet-name>
-    <url-pattern>/lessons/create</url-pattern>
+    <url-pattern>/lesson</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>RegistrationServlet</servlet-name>

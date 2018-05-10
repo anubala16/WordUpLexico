@@ -30,7 +30,7 @@
 		<p class="impMsg">Warning! Please ensure tile and file path is
 			unique for each lesson or an older lesson will be overriden.</p>
 		<div class="container">
-			<form action="lessons/create" method="post">
+			<form action="lesson" method="post">
 				<input type="hidden" name="action" value="create"> <label>Lesson
 					Name: </label> <input type="text" name="title" id="title" value="" required>
 				<br> <br> <label>Link to File: </label> <input type="text"
@@ -169,7 +169,7 @@
 		</select>
 		<br>
 		<br>
-		<a class="userMenu" href="../welcome.jsp"><- Back to my Dashboard</a>
+		<a class="userMenu" href="welcome.jsp"><- Back to my Dashboard</a>
 	</c:if>
 </section>
 

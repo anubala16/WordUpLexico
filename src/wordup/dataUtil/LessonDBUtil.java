@@ -229,10 +229,9 @@ public class LessonDBUtil {
 	}
 
 	public static ArrayList<LessonAuthor> getCatalog(int userID) {
-
 		Connection conn = null;
 		PreparedStatement ps = null;
-		String query = "select User.firstName, User.lastName, Lesson.lessonID, Lesson.title, Lesson.file, Lesson.subject, Lesson.level, Lesson.subject2, Lesson.subject3, Lesson.dateCreated from Lesson inner join User on Lesson.creatorID = User.userID where Lesson.creatorID = ? or Lesson.level = ?";
+		String query = "select User.firstName, User.lastName, Lesson.lessonID, Lesson.title, Lesson.file, Lesson.creatorID, Lesson.subject, Lesson.level, Lesson.subject2, Lesson.subject3, Lesson.dateCreated from Lesson inner join User on Lesson.creatorID = User.userID where Lesson.creatorID = ? or Lesson.level = ?";
 		ResultSet rs = null;
 		ArrayList<LessonAuthor> lessons = new ArrayList<LessonAuthor>();
 		try {
@@ -257,11 +256,51 @@ public class LessonDBUtil {
 				String authorName = rs.getString("User.firstName") + " " + rs.getString("User.lastName");
 				LessonAuthor la = new LessonAuthor(l, authorName);
 				lessons.add(la);
-
 			}
 			ps.close();
 			conn.close();
 			return lessons;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+	
+	public static LessonAuthor getLessonAuthor(int lessonID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = "select User.firstName, User.lastName, Lesson.lessonID, Lesson.title, Lesson.file, Lesson.creatorID, Lesson.subject, Lesson.level, Lesson.subject2, Lesson.subject3, Lesson.dateCreated from Lesson inner join User on Lesson.creatorID = User.userID where Lesson.lessonID = ?";
+		ResultSet rs = null;
+		ArrayList<LessonAuthor> lessons = new ArrayList<LessonAuthor>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, lessonID);
+			rs = ps.executeQuery();
+			Lesson l = null;
+			LessonAuthor la = null;
+			while (rs.next()) {
+				l = new Lesson();
+				l.setTitle(rs.getString("title"));
+				l.setFilePath(rs.getString("file"));
+				l.setSubject(rs.getString("subject"));
+				l.setAccessLevel(rs.getString("level"));
+				l.setSubject2(rs.getString("subject2"));
+				l.setSubject3(rs.getString("subject3"));
+				l.setAuthorID(rs.getInt("creatorID"));
+				l.setDateCreated(rs.getDate("dateCreated"));
+				l.setLessonID(rs.getInt("lessonID"));
+				String authorName = rs.getString("User.firstName") + " " + rs.getString("User.lastName");
+				la = new LessonAuthor(l, authorName);
+			}
+			ps.close();
+			conn.close();
+			return la;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getStackTrace());

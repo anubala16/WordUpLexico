@@ -20,6 +20,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<form action="lesson" method="post">
+		<input type="hidden" name="action" value="review"> 
 	<table>
 		<thead>
 			<th>Lesson ID</th>
@@ -32,19 +34,21 @@
 		</thead>
 		<c:forEach var="lessonAuthor" items="${lessonAuthors}">
 			<tr>
-				<td>${lessonAuthor.lesson.lessonID}<input type="hidden" id="lessonID" name="lessonID" value="${lesson.lessonID}"></td>
+				<td>${lessonAuthor.lesson.lessonID}<input type="hidden"
+					id="lessonID" name="lessonID" value="${lessonAuthor.lesson.lessonID}"></td>
 				<td class="">${lessonAuthor.lesson.title}</td>
 				<td>${lessonAuthor.author}</td>
 				<td>${lessonAuthor.lesson.subject}</td>
 				<td>${lessonAuthor.lesson.accessLevel}</td>
 				<td>${lessonAuthor.lesson.dateCreated}</td>
 				<td><input type="submit" id="done" name="study" value="Study">
-				<input type="submit" id="done" name="quiz" value="Quiz Me!"></td>
+					<input type="submit" id="done" name="quiz" value="Quiz Me!"></td>
 			</tr>
 		</c:forEach>
 	</table>
+	</form>
 	<br> <br> <a class="userMenu" href="welcome.jsp"><- Back
-		to my Dashboard</a>
+		to My Dashboard</a>
 </section>
 
 <c:import url="../footer.jsp" />

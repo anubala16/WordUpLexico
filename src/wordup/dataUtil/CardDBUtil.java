@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import wordup.business.Card;
 import wordup.business.Lesson;
@@ -65,6 +66,40 @@ public class CardDBUtil {
 			ps.close();
 			conn.close();
 			return c;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+
+	public static ArrayList<Card> getLessonCards(int lessonID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = "select * from Card where lessonID = ?";
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, lessonID);
+			rs = ps.executeQuery();
+			ArrayList<Card> cards = new ArrayList<Card>();
+			Card c = null;
+			while (rs.next()) {
+				c = new Card();
+				c.setWord(rs.getString("word"));
+				c.setDescription(rs.getString("description"));
+				c.setLessonID(rs.getInt("lessonID"));
+				c.setCardID(rs.getInt("cardID"));
+				cards.add(c);
+			}
+			ps.close();
+			conn.close();
+			return cards;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getStackTrace());

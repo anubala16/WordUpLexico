@@ -13,13 +13,15 @@
 	<h1>My Lessons</h1>
 </header>
 <section>
-	<table>
-		<c:forEach var="error" items="${errors}">
-			<tr>
-				<td class="errorMsg">${error}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	<c:if test="${errors != null }">
+		<table>
+			<c:forEach var="error" items="${errors}">
+				<tr>
+					<td class="errorMsg">${error}</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:if>
 	<table>
 		<thead>
 			<th>Lesson ID</th>
