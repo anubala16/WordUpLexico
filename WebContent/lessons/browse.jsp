@@ -34,15 +34,15 @@
 		</thead>
 		<c:forEach var="lessonAuthor" items="${lessonAuthors}">
 			<tr>
-				<td>${lessonAuthor.lesson.lessonID}<input type="hidden"
-					id="lessonID" name="lessonID" value="${lessonAuthor.lesson.lessonID}"></td>
+				<td>${lessonAuthor.lesson.lessonID}</td>
 				<td class="">${lessonAuthor.lesson.title}</td>
 				<td>${lessonAuthor.author}</td>
 				<td>${lessonAuthor.lesson.subject}</td>
 				<td>${lessonAuthor.lesson.accessLevel}</td>
 				<td>${lessonAuthor.lesson.dateCreated}</td>
-				<td><input type="submit" id="done" name="study" value="Study">
-					<input type="submit" id="done" name="quizMe" value="Quiz Me!"></td>
+				<td>
+				<button type="submit" id="study" name="study" value="${lessonAuthor.lesson.lessonID}">Study</button>
+				<button type="submit" id="study" name="quizMe" value="${lessonAuthor.lesson.lessonID}">Quiz Me!</button>
 			</tr>
 		</c:forEach>
 	</table>

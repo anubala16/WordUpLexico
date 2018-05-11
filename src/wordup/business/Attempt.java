@@ -12,6 +12,8 @@ public class Attempt {
 	 */
 	public Attempt () {
 		super();
+		long time = System.currentTimeMillis();
+		this.timestamp = new Date(time);
 	}
 	
 	/**
@@ -97,6 +99,14 @@ public class Attempt {
 	 */
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	public int getCount() {
+		return this.count;
 	}
 
 }

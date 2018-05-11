@@ -169,8 +169,14 @@ public class LessonServlet extends HttpServlet {
 		} else if (action.equals("review")) {
 			// study the lesson or take a quiz
 			String study = request.getParameter("study");
+			//String study2 = request.getParameter("study2");
 			String quizMe = request.getParameter("quizMe");
-			int lessonID = Integer.parseInt(request.getParameter("lessonID"));
+			int lessonID = 0;
+			if (study != null) {
+				lessonID = Integer.parseInt(study);
+			} else 
+				lessonID = Integer.parseInt(quizMe);
+			System.out.println("Lesson Servlet lesson id " + lessonID);
 			ArrayList<Card> cards = null;
 			if (lessonID != 0) {
 				cards = CardDBUtil.getLessonCards(lessonID);
