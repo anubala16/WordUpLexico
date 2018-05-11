@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import wordup.business.Attempt;
+import wordup.business.Lesson;
 
 public class AttemptDBUtil {
 
@@ -184,6 +185,90 @@ public class AttemptDBUtil {
 		} catch (ClassNotFoundException e) {
 			System.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+
+	public static ArrayList<LessonAttempt> getLessonAttempts(int userID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		System.out.println("Getting lesson attempts for user " + userID);
+		String query = "select * from Attempt inner join Lesson on Attempt.lessonID = Lesson.lessonID where Attempt.userID = ?";
+		ResultSet rs = null;
+		ArrayList<LessonAttempt> lessonAttempts = new ArrayList<LessonAttempt>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, userID);
+			rs = ps.executeQuery();
+			Lesson l = null;
+			Attempt a = null;
+			while (rs.next()) {
+				System.out.println("found an attempt...");
+				l = new Lesson();
+				a = new Attempt();
+				l.setTitle(rs.getString("title"));
+				l.setFilePath(rs.getString("file"));
+				l.setSubject(rs.getString("subject"));
+				l.setAccessLevel(rs.getString("level"));
+				l.setSubject2(rs.getString("subject2"));
+				l.setSubject3(rs.getString("subject3"));
+				l.setAuthorID(rs.getInt("creatorID"));
+				l.setDateCreated(rs.getDate("dateCreated"));
+				l.setLessonID(rs.getInt("lessonID"));
+				
+				a.setLessonID(rs.getInt("lessonID"));
+				a.setUserID(rs.getInt("userID"));
+				a.setAttemptID(rs.getInt("attemptID"));
+				a.setTimestamp(rs.getDate("timestamp"));
+				a.setScore(rs.getInt("score"));
+				a.setCount(rs.getInt("count"));
+				
+				int cardCount = LessonDBUtil.getCardCount(l.getLessonID());
+				
+				LessonAttempt la = new LessonAttempt(l, a, cardCount);
+				lessonAttempts.add(la);
+			}
+			ps.close();
+			conn.close();
+			return lessonAttempts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+	
+	public static class LessonAttempt {
+		private Lesson lesson; 
+		private Attempt attempt;
+		private int qCount;
+		private double percent;
+		
+		public LessonAttempt (Lesson lesson, Attempt attempt, int cardCount) {
+			this.lesson = lesson;
+			this.attempt = attempt;
+			this.qCount = cardCount;
+			this.percent = (double) attempt.getScore() * 100 / qCount;
+		}
+		
+		public Lesson getLesson(){
+			return this.lesson;
+		}
+		
+		public Attempt getAttempt() {
+			return this.attempt;
+		}
+		
+		public int getqCount() {
+			return qCount;
+		}
+
+		public double getPercent() {
+			return this.percent;
 		}
 	}
 

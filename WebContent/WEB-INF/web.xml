@@ -32,7 +32,7 @@
   <servlet-mapping>
     <servlet-name>AttemptServlet</servlet-name>
     <url-pattern>/gradeattempt</url-pattern>
-    <url-pattern>/viewattempt</url-pattern>
+    <url-pattern>/viewMyScores</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DashboardServlet</servlet-name>

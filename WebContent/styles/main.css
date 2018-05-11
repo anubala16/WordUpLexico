@@ -194,7 +194,8 @@ table {
 }
 
 td, tr {
-	padding: 1.5em;
+	padding: 1.1em;
+	text-align: center;
 }
 
 td.cardWord {

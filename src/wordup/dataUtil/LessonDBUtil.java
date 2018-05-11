@@ -228,6 +228,39 @@ public class LessonDBUtil {
 		}
 	}
 
+	public static int getCardCount(int lessonID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = "select count(*) from card where lessonID=?";
+		ResultSet rs = null;
+		ArrayList<Lesson> lessons = new ArrayList<Lesson>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, lessonID);
+			rs = ps.executeQuery();
+			int result = 0;
+			if (rs.next()) {
+				result = rs.getInt("count(*)");
+				if (result == 0) {
+					System.out.println("card count method is tricky");
+					result = rs.getInt(0);
+				}
+			}
+			ps.close();
+			conn.close();
+			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return 0;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+
 	public static ArrayList<LessonAuthor> getCatalog(int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -269,7 +302,7 @@ public class LessonDBUtil {
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}
-	
+
 	public static LessonAuthor getLessonAuthor(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -310,23 +343,23 @@ public class LessonDBUtil {
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}
-	
+
 	public static class LessonAuthor {
-		private Lesson lesson; 
+		private Lesson lesson;
 		private String author;
-		
-		public LessonAuthor (Lesson lesson, String authorName) {
+
+		public LessonAuthor(Lesson lesson, String authorName) {
 			this.lesson = lesson;
 			this.author = authorName;
 		}
-		
-		public Lesson getLesson(){
+
+		public Lesson getLesson() {
 			return this.lesson;
 		}
-		
+
 		public String getAuthor() {
 			return this.author;
 		}
 	}
-	
+
 }

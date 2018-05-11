@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import wordup.business.Lesson;
 import wordup.business.User;
+import wordup.dataUtil.AttemptDBUtil;
 import wordup.dataUtil.LessonDBUtil;
+import wordup.dataUtil.AttemptDBUtil.LessonAttempt;
 import wordup.dataUtil.LessonDBUtil.LessonAuthor;
 
 /**
@@ -82,7 +84,8 @@ public class DashboardServlet extends HttpServlet {
 		} else if (viewScores != null) {
 			// view my score reports button pressed 
 			url = "/lessons/myScores.jsp";
-			// TODO not yet done!! 
+			ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID()); 
+			request.setAttribute("lessonAttempts", la);
 		} else {
 			System.out.println("Unknown value. Not sure what to do");
 			request.removeAttribute("lesson");

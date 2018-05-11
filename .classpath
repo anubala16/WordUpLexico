@@ -16,5 +16,7 @@
 	<classpathentry kind="lib" path="C:/Users/anuba/Downloads/jstl-impl.jar/jstl-impl.jar"/>
 	<classpathentry kind="lib" path="C:/Users/anuba/Downloads/jstl-api-1.2-sources.jar/jstl-api-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/anuba/Downloads/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45/mysql-connector-java-5.1.45-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/anuba/Downloads/java-mail-1.4.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/anuba/Downloads/activation.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
