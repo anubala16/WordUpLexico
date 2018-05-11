@@ -169,6 +169,7 @@ public class LessonServlet extends HttpServlet {
 		} else if (action.equals("review")) {
 			// study the lesson or take a quiz
 			String study = request.getParameter("study");
+			System.out.println("Lesson Servlet study value: " + study);
 			//String study2 = request.getParameter("study2");
 			String quizMe = request.getParameter("quizMe");
 			int lessonID = 0;

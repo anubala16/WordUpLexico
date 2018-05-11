@@ -228,6 +228,51 @@ public class LessonDBUtil {
 		}
 	}
 
+	public static ArrayList<LessonAuthor> getLessonAuthors() {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = "select * from Lesson inner join User on Lesson.creatorID = User.userID";
+		ResultSet rs = null;
+		ArrayList<LessonAuthor> lessons = new ArrayList<LessonAuthor>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			Lesson l = null;
+			LessonAuthor la = null;
+			ArrayList<LessonAuthor> las = new ArrayList<LessonAuthor>();
+			while (rs.next()) {
+				l = new Lesson();
+				l.setTitle(rs.getString("title"));
+				l.setFilePath(rs.getString("file"));
+				l.setSubject(rs.getString("subject"));
+				l.setAccessLevel(rs.getString("level"));
+				l.setSubject2(rs.getString("subject2"));
+				l.setSubject3(rs.getString("subject3"));
+				l.setAuthorID(rs.getInt("creatorID"));
+				l.setDateCreated(rs.getDate("dateCreated"));
+				l.setLessonID(rs.getInt("lessonID"));
+				
+				String authorName = rs.getString("User.firstName") + " " + rs.getString("User.lastName");
+				
+				la = new LessonAuthor(l, authorName);
+				
+				las.add(la);
+			}
+			ps.close();
+			conn.close();
+			return las;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return null;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		}
+	}
+
 	public static int getCardCount(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;

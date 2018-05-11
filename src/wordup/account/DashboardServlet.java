@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import wordup.business.Lesson;
 import wordup.business.User;
+import wordup.dataUtil.UserDBUtil;
 import wordup.dataUtil.AttemptDBUtil;
 import wordup.dataUtil.LessonDBUtil;
 import wordup.dataUtil.AttemptDBUtil.LessonAttempt;
@@ -49,6 +50,8 @@ public class DashboardServlet extends HttpServlet {
 		String viewAll = request.getParameter("viewAllLessons");
 		String viewMine = request.getParameter("viewMyLessons");
 		String viewScores = request.getParameter("viewMyScores");
+		String adminUsers = request.getParameter("adminUsers");
+		String adminLessons = request.getParameter("adminLessons");
 		User user = (User) request.getSession().getAttribute("user");
 		if (action == null) {
 
@@ -56,11 +59,12 @@ public class DashboardServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/welcome.jsp").forward(request, response);
 		}
 
+		ArrayList<String> errors = new ArrayList<String>();
 		// perform action and set URL to appropriate page
 		String success = "";
 		String url = "";
 		System.out.println("Action yo: " + action);
-		System.out.println(createLesson + " | " + viewAll + " | " + viewMine + " | " + viewScores);
+		System.out.println(createLesson + " | " + viewAll + " | " + viewMine + " | " + viewScores + " | " + adminLessons + " | " + adminUsers);
 		if (viewMine != null) {
 			// view my lessons button pressed 
 			url = "/lessons/myLessons.jsp";
@@ -86,11 +90,26 @@ public class DashboardServlet extends HttpServlet {
 			url = "/lessons/myScores.jsp";
 			ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID()); 
 			request.setAttribute("lessonAttempts", la);
+		} else if (adminUsers != null) {
+			url = "/users/viewAll.jsp";
+			ArrayList<User> users = UserDBUtil.getUsers();
+			request.setAttribute("users", users);
+		} else if (adminLessons != null) {
+			if (user.getType() == 0) {
+			url = "/lessons/viewAll.jsp";
+			ArrayList<LessonAuthor> lessonAuthors = LessonDBUtil.getLessonAuthors();
+			request.setAttribute("lessonAuthors", lessonAuthors);
+			} else {
+				url = "/login.jsp";
+				errors.add("You are unauthorized to view this page. Please sign-in as an admin beofre proceeding.");
+			}
 		} else {
 			System.out.println("Unknown value. Not sure what to do");
 			request.removeAttribute("lesson");
 			url = "/welcome.jsp";
 		}
+		
+		request.setAttribute("errors", errors);
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 

@@ -41,7 +41,12 @@
 		<br>
 	</c:forEach>
 
-	<br> <br> <a class="userMenu" href="welcome.jsp">Finish
-		Study</a>
+	<br> <br>
+	<c:if test="${user.type == 1 }">
+		<a class="userMenu" href="welcome.jsp">Finish Study</a>
+	</c:if>
+	<c:if test="${user.type == 0 }">
+		<a class="userMenu" href="welcome.jsp"><- Back to My Dashboard</a>
+	</c:if>
 </section>
 <c:import url="../footer.jsp" />

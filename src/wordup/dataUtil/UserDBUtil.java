@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import wordup.business.User;
 
@@ -111,6 +112,43 @@ public class UserDBUtil {
 			ps.close();
 			conn.close();
 			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e.getStackTrace());
+			return null;
+		} catch (ClassNotFoundException e) {
+		    System.out.println("Another error..");
+			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
+		} 
+	}
+	
+	public static ArrayList<User> getUsers() {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String query = "select * from user";
+		ResultSet rs = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			ArrayList<User> users = new ArrayList<User>();
+			User user = null;
+			while (rs.next()) {
+				user = new User();
+				user.setFirstName(rs.getString("firstName"));
+				user.setLastName(rs.getString("lastName"));
+				user.setEmail(rs.getString("email"));
+				user.setPassword(rs.getString("password"));
+				user.setProfession(rs.getString("profession"));
+				user.setUserID(rs.getInt("userID"));
+				user.setType(rs.getInt("type")); 
+				users.add(user);
+			}
+			ps.close();
+			conn.close();
+			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println(e.getStackTrace());
