@@ -23,7 +23,7 @@ import wordup.dataUtil.CardDBUtil;
 import wordup.dataUtil.LessonDBUtil;
 import wordup.dataUtil.ResponseDBUtil;
 import wordup.dataUtil.LessonDBUtil.LessonAuthor;
-import wordup.dataUtil.MailUtilGmail;
+import wordup.util.MailUtilGmail;
 
 /**
  * Servlet implementation class AttemptServlet

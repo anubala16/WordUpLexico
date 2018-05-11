@@ -1,8 +1,9 @@
 package wordup.business;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Attempt {
+public class Attempt implements Serializable {
 
 	private int attemptID, lessonID, userID, score, count;
 	private Date timestamp;

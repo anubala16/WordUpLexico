@@ -16,6 +16,7 @@ public class Card implements Serializable {
 	private int cardID, lessonID;
 	
 	public Card() {
+		super();
 		
 	}
 

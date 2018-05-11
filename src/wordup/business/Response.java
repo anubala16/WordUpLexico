@@ -1,12 +1,14 @@
 package wordup.business;
 
-public class Response {
+import java.io.Serializable;
+
+public class Response implements Serializable {
 
 	private int responseID, cardID, attemptID;
 	private String userResp;
 	
 	public Response() {
-		
+		super();
 	}
 
 	/**

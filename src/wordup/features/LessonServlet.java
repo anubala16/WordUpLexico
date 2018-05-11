@@ -100,7 +100,7 @@ public class LessonServlet extends HttpServlet {
 				if (newLesson == null) { // new lesson
 					int rowCount = LessonDBUtil.insert(lesson);
 					if (rowCount == 0) {
-						throw new Exception("Error inserting the new Lesson in database.");
+						throw new Exception("Error inserting the new Lesson in database. Please login again before proceeding.");
 					}
 					newLesson = LessonDBUtil.getLessonByFileAndTitle(path, title);
 				} else { // lesson already exists...whose the author?

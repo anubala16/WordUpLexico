@@ -10,23 +10,41 @@ public class User implements Serializable {
     private String email;
     private String password; 
     private String profession;
+   //private String pwd; 
+    private String salt;
 
     public User() {
-        firstName = "";
+        super();
+    	firstName = "";
         lastName = "";
         email = "";
         type = 1;
         password = "";
         profession = ""; 
+        salt = ""; 
+        //pwd = "";
     }
 
-    public User(String firstName, String lastName, String email, String password, String prof, int type) {
+    /**
+     * 
+     * @param firstName first name of user 
+     * @param lastName last name of user 
+     * @param email email id of user - unique 
+     * @param password hashed and salted password 
+     * @param prof profession of user ("admin", "student", "teaching professional", "other (academia)", "other") 
+     * @param type type of user; 0 for admin, 1 for other 
+     * @param pwd plain-text password - will be deleted after development 
+     * @param salt random salt to hash user passwords 
+     */
+    public User(String firstName, String lastName, String email, String password, String prof, int type, String salt) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.profession = prof;
         this.type = type;
+        //this.pwd = pwd;
+        this.salt = salt;
     }
 
     public String getFirstName() {
@@ -83,6 +101,34 @@ public class User implements Serializable {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+
+	/**
+	 * @return the pwd
+	 *
+	public String getPwd() {
+		return pwd;
+	}
+
+	/**
+	 * @param pwd the pwd to set
+	 *
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	/**
+	 * @return the salt
+	 */
+	public String getSalt() {
+		return salt;
+	}
+
+	/**
+	 * @param salt the salt to set
+	 */
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 }

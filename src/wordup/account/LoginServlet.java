@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import wordup.business.User;
 import wordup.dataUtil.UserDBUtil;
+import wordup.util.PasswordUtil;
 
 /**
  * Servlet implementation class LoginServlet
@@ -77,6 +78,7 @@ public class LoginServlet extends HttpServlet {
 				errors.add("Please provide username and password");
 			}
 
+			// validating email
 			String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
 					+ "A-Z]{2,7}$";
 			Pattern pat = Pattern.compile(emailRegex);
@@ -85,18 +87,29 @@ public class LoginServlet extends HttpServlet {
 				errors.add("Invalid email provided");
 			}
 
+			// see if user exists...if so, retrieve user
 			User user = UserDBUtil.getUserByEmail(email);
 			if (user == null) {
 				errors.add("Unknown user. Please sign-up for an account before proceeding.");
-				//response.sendRedirect("register.jsp");
-			} else if (!pwd.equals(user.getPassword())) {
-				errors.add("Invalid login credentials");
-				//response.sendRedirect("register.jsp");
+				// response.sendRedirect("register.jsp");
 			} else {
-				// valid login
-				session.setAttribute("user", user);
-				url = "/welcome.jsp";
-				//response.sendRedirect("welcome.jsp");
+				String pwd_hash = "";
+				try {
+					pwd_hash = PasswordUtil.hashPassword(pwd.trim() + user.getSalt().trim());
+				} catch (Exception e) {
+					System.out.println("Error authenticating user...");
+					errors.add("Error during authentication. Please retry");
+				}
+				if (!pwd_hash.equals(user.getPassword().trim())) {
+					//System.out.println("You entered: " + pwd + "\nActual pwd: " + user.getPwd() + "\nEntered Pwd Hash: "
+						//	+ pwd_hash);
+					errors.add("Invalid login credentials");
+					// response.sendRedirect("register.jsp");
+				} else {
+					// valid login
+					session.setAttribute("user", user);
+					url = "/welcome.jsp";
+				}
 			}
 
 			request.setAttribute("errors", errors);

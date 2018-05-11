@@ -24,7 +24,7 @@ public class Lesson implements Serializable {
 	 */
 	public Lesson() {
 		long time = System.currentTimeMillis();
-		dateCreated = new Date(time);
+		this.dateCreated = new Date(time);
 	}
 
 	/**

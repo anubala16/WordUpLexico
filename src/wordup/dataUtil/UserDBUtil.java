@@ -22,7 +22,7 @@ public class UserDBUtil {
 		Connection conn;
 
 		PreparedStatement ps;
-		String query = "insert into User (firstName, lastName, email, password, profession, type) values (?, ?, ?, ?, ?, ?)";
+		String query = "insert into User (firstName, lastName, email, password, profession, type, salt) values (?, ?, ?, ?, ?, ?, ?)";
 		try {
 		    Class.forName("com.mysql.jdbc.Driver");
 		    System.out.println("Driver loaded!");
@@ -39,6 +39,8 @@ public class UserDBUtil {
 			ps.setString(4, user.getPassword());
 			ps.setString(5, user.getProfession());
 			ps.setInt(6, user.getType());
+			//ps.setString(7, user.getPwd());
+			ps.setString(8, user.getSalt());
 			int result = ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -71,7 +73,9 @@ public class UserDBUtil {
 				user.setPassword(rs.getString("password"));
 				user.setProfession(rs.getString("profession"));
 				user.setUserID(rs.getInt("userID"));
-				user.setType(rs.getInt("type"));	
+				user.setType(rs.getInt("type"));
+				user.setSalt(rs.getString("salt"));
+				//user.setPwd(rs.getString("pwd"));
 			}
 			ps.close();
 			conn.close();
@@ -107,7 +111,10 @@ public class UserDBUtil {
 				user.setPassword(rs.getString("password"));
 				user.setProfession(rs.getString("profession"));
 				user.setUserID(rs.getInt("userID"));
-				user.setType(rs.getInt("type"));	
+				user.setType(rs.getInt("type"));
+				user.setSalt(rs.getString("salt"));
+				//user.setPwd(rs.getString("pwd"));
+				
 			}
 			ps.close();
 			conn.close();
@@ -144,6 +151,8 @@ public class UserDBUtil {
 				user.setProfession(rs.getString("profession"));
 				user.setUserID(rs.getInt("userID"));
 				user.setType(rs.getInt("type")); 
+				user.setSalt(rs.getString("salt"));
+				//user.setPwd(rs.getString("pwd"));
 				users.add(user);
 			}
 			ps.close();

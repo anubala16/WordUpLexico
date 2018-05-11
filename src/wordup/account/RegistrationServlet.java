@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import wordup.business.User;
 import wordup.dataUtil.UserDBUtil;
+import wordup.util.PasswordUtil;
 
 /**
  * Servlet implementation class RegistrationServlet
@@ -67,23 +68,18 @@ public class RegistrationServlet extends HttpServlet {
 			String pwd = request.getParameter("password");
 			String pwd2 = request.getParameter("password2");
 			String prof = request.getParameter("profession");
-			/** Playing with multiple submits 
-			String register = request.getParameter("register");
-			String dummy = request.getParameter("dummy");
-			System.out.println("Plz work!!!");
-			System.out.println("Hello----" + "\n" + register + " | " + dummy + " hmm");
-			if (register != null) {
-				System.out.println("Pressed register button...");
-				if (dummy == null) {
-					System.out.println("should be here as well...");
-				}
-			} else if (dummy != null) {
-				System.out.println("Pressed dummy button...");
-				if (register == "") {
-					System.out.println("Should be here...");
-				}
-			}
-			*/
+			/**
+			 * Playing with multiple submits String register =
+			 * request.getParameter("register"); String dummy =
+			 * request.getParameter("dummy"); System.out.println("Plz work!!!");
+			 * System.out.println("Hello----" + "\n" + register + " | " + dummy
+			 * + " hmm"); if (register != null) { System.out.println("Pressed
+			 * register button..."); if (dummy == null) {
+			 * System.out.println("should be here as well..."); } } else if
+			 * (dummy != null) { System.out.println("Pressed dummy button...");
+			 * if (register == "") { System.out.println("Should be here..."); }
+			 * }
+			 */
 			System.out.println(fName + '\n' + lName + '\n' + email + '\n' + pwd + '\n' + pwd2 + '\n' + prof);
 
 			HttpSession session = request.getSession();
@@ -108,7 +104,6 @@ public class RegistrationServlet extends HttpServlet {
 			}
 
 			// valid input provided - check if email id is new or already taken
-			User user = new User(fName, lName, email, pwd, prof, 1);
 			if (UserDBUtil.getUserByEmail(email) != null) {
 				// email id already in use
 				errors.add("Given email is already in use. Please provide a new one.");
@@ -116,7 +111,16 @@ public class RegistrationServlet extends HttpServlet {
 
 			if (errors.size() == 0) {
 				url = "/login.jsp";
-				UserDBUtil.insert(user);
+				try {
+					String salt = PasswordUtil.getSalt();
+					System.out.println("New salt: " + salt);
+					String pwd_hash = PasswordUtil.hashPassword(pwd.trim() + salt.trim());
+					System.out.println("New pwd_hash in db: " + pwd_hash);
+					User user = new User(fName, lName, email, pwd_hash.trim(), prof, 1, salt);
+					UserDBUtil.insert(user);
+				} catch (Exception e) {
+					errors.add("Error hashing given password. Please retry.");
+				}
 				request.setAttribute("success", "Success! Your account is created :)");
 				// request.setAttribute("user", user);
 			}

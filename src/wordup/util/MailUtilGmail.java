@@ -1,4 +1,4 @@
-package wordup.dataUtil;
+package wordup.util;
 
 import java.util.Properties;
 import javax.mail.*;
