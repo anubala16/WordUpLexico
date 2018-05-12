@@ -17,6 +17,7 @@ import wordup.dataUtil.UserDBUtil;
 import wordup.util.PasswordUtil;
 
 /**
+ * Handles user registration of wordup account
  * Servlet implementation class RegistrationServlet
  */
 @WebServlet(name = "RegistrationServlet", urlPatterns = { "/register" })
@@ -37,7 +38,6 @@ public class RegistrationServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Should not be here!!!");
 		doPost(request, response);
 	}
 
@@ -47,11 +47,8 @@ public class RegistrationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Hmm, posting...");
-
 		// get current action
 		String action = request.getParameter("action");
-		System.out.println("Action: " + action);
 		if (action == null) {
 			System.out.println("action is null!");
 			action = ""; // default action
@@ -68,20 +65,7 @@ public class RegistrationServlet extends HttpServlet {
 			String pwd = request.getParameter("password");
 			String pwd2 = request.getParameter("password2");
 			String prof = request.getParameter("profession");
-			/**
-			 * Playing with multiple submits String register =
-			 * request.getParameter("register"); String dummy =
-			 * request.getParameter("dummy"); System.out.println("Plz work!!!");
-			 * System.out.println("Hello----" + "\n" + register + " | " + dummy
-			 * + " hmm"); if (register != null) { System.out.println("Pressed
-			 * register button..."); if (dummy == null) {
-			 * System.out.println("should be here as well..."); } } else if
-			 * (dummy != null) { System.out.println("Pressed dummy button...");
-			 * if (register == "") { System.out.println("Should be here..."); }
-			 * }
-			 */
-			System.out.println(fName + '\n' + lName + '\n' + email + '\n' + pwd + '\n' + pwd2 + '\n' + prof);
-
+			
 			HttpSession session = request.getSession();
 			ArrayList<String> errors = new ArrayList<String>();
 			session.setMaxInactiveInterval(-1);

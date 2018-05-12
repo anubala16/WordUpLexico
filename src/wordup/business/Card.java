@@ -11,16 +11,27 @@ import java.io.Serializable;
  */
 public class Card implements Serializable {
 
+	/**
+	 * Word - The vocab word token (before the colon character in the input file line) 
+	 * Description - the definition/description for the given word 
+	 */
 	private String word, description; 
 	
+	/**
+	 * lessonID - id of the lesson this card belongs to 
+	 */
 	private int cardID, lessonID;
 	
+	/**
+	 * Default constructor for the POJO 
+	 */
 	public Card() {
 		super();
 		
 	}
 
 	/**
+	 * 
 	 * @param word
 	 * @param description
 	 * @param lessonID

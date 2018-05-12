@@ -9,9 +9,18 @@ import java.util.ArrayList;
 
 import wordup.business.Card;
 import wordup.business.Lesson;
-
+/**
+ * DAO class for Card table 
+ * @author anusha balaji 
+ *
+ */
 public class CardDBUtil {
 
+	/**
+	 * Insert a card object into the mysql database 
+	 * @param card car to insert 
+	 * @return row count affected 
+	 */
 	public static int insert(Card card) {
 		Connection conn;
 
@@ -43,6 +52,11 @@ public class CardDBUtil {
 		}
 	}
 	
+	/**
+	 * Gets card with the given id 
+	 * @param cardID id of the card to be retrieved from database 
+	 * @return Card from database 
+	 */
 	public static Card getCardByID(int cardID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -76,6 +90,11 @@ public class CardDBUtil {
 		}
 	}
 
+	/**
+	 * Gets all the cards belonging to the lesson with the given id 
+	 * @param lessonID id of the lesson 
+	 * @return cards for the lesson 
+	 */
 	public static ArrayList<Card> getLessonCards(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;

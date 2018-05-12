@@ -9,8 +9,22 @@ import java.util.ArrayList;
 
 import wordup.business.Lesson;
 
+/**
+ * Handles all database interactions with Lesson table and fulfills user
+ * requests related too them
+ * 
+ * @author anuba
+ *
+ */
 public class LessonDBUtil {
 
+	/**
+	 * Inserts the given le3sson in the database
+	 * 
+	 * @param lesson
+	 *            new lesson to be inserted
+	 * @return
+	 */
 	public static int insert(Lesson lesson) {
 		Connection conn;
 
@@ -45,6 +59,16 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Gets the lesson correspondng to the given title and filepath **Note:
+	 * lesson title and filepath are a superkey
+	 * 
+	 * @param filePath
+	 *            absolute path for the input data file
+	 * @param title
+	 *            title of the lesson
+	 * @return lesson with the given title and file path
+	 */
 	public static Lesson getLessonByFileAndTitle(String filePath, String title) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -87,6 +111,13 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Gets the lesson by id
+	 * 
+	 * @param lessonID
+	 *            id of the lesson to get
+	 * @return lesson with the given id
+	 */
 	public static Lesson getLessonByID(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -125,6 +156,13 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Updates the subjects and access level for a lesson
+	 * 
+	 * @param lesson
+	 *            new, updated lesson
+	 * @return row count affected
+	 */
 	public static int update(Lesson lesson) {
 		Connection conn;
 
@@ -159,6 +197,13 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Deletes the cards related to the given lesson
+	 * 
+	 * @param lessonID
+	 *            id of the lesson
+	 * @return row count affected
+	 */
 	public static int deleteCards(int lessonID) {
 		Connection conn;
 
@@ -228,6 +273,13 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Gets LessonAuthors, used for admin "View lessons" feature LessonAuthor is
+	 * a custom object with the lesson and author name pulled from a join query
+	 * between lesson and user table on the user and creator id fields
+	 * 
+	 * @return all lessons with their author names in the system
+	 */
 	public static ArrayList<LessonAuthor> getLessonAuthors() {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -253,11 +305,11 @@ public class LessonDBUtil {
 				l.setAuthorID(rs.getInt("creatorID"));
 				l.setDateCreated(rs.getDate("dateCreated"));
 				l.setLessonID(rs.getInt("lessonID"));
-				
+
 				String authorName = rs.getString("User.firstName") + " " + rs.getString("User.lastName");
-				
+
 				la = new LessonAuthor(l, authorName);
-				
+
 				las.add(la);
 			}
 			ps.close();
@@ -273,6 +325,14 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Returns the number of cards for the lesson
+	 * 
+	 * @param lessonID
+	 *            id of the lesson for which the cards must be counted and
+	 *            returned
+	 * @return cardCount for the lesosn with the given id
+	 */
 	public static int getCardCount(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -306,6 +366,14 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Gets the catalog of lessons for the given user (this is different from
+	 * "View All Lessons" for admins) as users can't view any other user's
+	 * private quizzes
+	 * 
+	 * @param userID
+	 * @return
+	 */
 	public static ArrayList<LessonAuthor> getCatalog(int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -348,6 +416,12 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Gets the lesson along with the author name given the lesson id 
+	 * Used when generating score reports for the user 
+	 * @param lessonID id of the lesson whose LessonAuthor must be got 
+	 * @return LessonAuthor (lesson + author name)
+	 */
 	public static LessonAuthor getLessonAuthor(int lessonID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -389,19 +463,40 @@ public class LessonDBUtil {
 		}
 	}
 
+	/**
+	 * Utility class for LessonDBUtil to capture a Lesson and its author name 
+	 * Used when displaying lessons to users in order to improve readability and user experience. 
+	 * @author abalaji 
+	 */
 	public static class LessonAuthor {
+		
+		/** Lesson object */
 		private Lesson lesson;
+		/** author's full name for the corresponding lesson */
 		private String author;
 
+		/**
+		 * constructor 
+		 * @param lesson lesson for this object 
+		 * @param authorName for this lesson 
+		 */
 		public LessonAuthor(Lesson lesson, String authorName) {
 			this.lesson = lesson;
 			this.author = authorName;
 		}
 
+		/**
+		 * get lesson object 
+		 * @return
+		 */
 		public Lesson getLesson() {
 			return this.lesson;
 		}
 
+		/**
+		 * getter for authorName 
+		 * @return
+		 */
 		public String getAuthor() {
 			return this.author;
 		}

@@ -9,9 +9,17 @@ import java.util.ArrayList;
 
 import wordup.business.Attempt;
 import wordup.business.Lesson;
-
+/**
+ * DAO class for accessing attempt table related queries 
+ * @author anusha balaji 
+ */
 public class AttemptDBUtil {
 
+	/**
+	 * Inserts given attempt in db
+	 * @param attempt
+	 * @return
+	 */
 	public static int insert(Attempt attempt) {
 		Connection conn;
 
@@ -33,7 +41,6 @@ public class AttemptDBUtil {
 			ps.setDate(3, attempt.getTimestamp());
 			ps.setInt(4, attempt.getScore());
 			ps.setInt(5, attempt.getCount());
-			System.out.println("inserting attempt: " + attempt.getLessonID() + " " + attempt.getUserID() + " " + attempt.getCount() + " " + attempt.getScore());
 			result = ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -45,6 +52,11 @@ public class AttemptDBUtil {
 		}
 	}
 
+	/**
+	 * Only updates the attempt's score - used when grading a quiz 
+	 * @param attempt new attempt with score 
+	 * @return rowCount rows affected 
+	 */
 	public static int update(Attempt attempt) {
 		Connection conn;
 
@@ -64,7 +76,6 @@ public class AttemptDBUtil {
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, attempt.getScore());
 			ps.setInt(2, attempt.getAttemptID());
-			System.out.println("Updating attempt...");
 			result = ps.executeUpdate();
 			ps.close();
 			conn.close();
@@ -76,6 +87,11 @@ public class AttemptDBUtil {
 		}
 	}
 
+	/**
+	 * Getter for Attempt using ID 
+	 * @param attemptID
+	 * @return
+	 */
 	public static Attempt getAttemptById(int attemptID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -106,11 +122,17 @@ public class AttemptDBUtil {
 			System.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}
 
+	/**
+	 * Getter for attempt using userID, lessonID, and attemptCount - unique combo, returns 0 or 1 always
+	 * @param lessonID
+	 * @param userID
+	 * @param count
+	 * @return
+	 */
 	public static Attempt getAttempt(int lessonID, int userID, int count) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -118,7 +140,6 @@ public class AttemptDBUtil {
 		ResultSet rs = null;
 
 		try {
-			System.out.println("Retrieving the new attempt: " + lessonID + " " + userID + " " + count);
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
 			ps = conn.prepareStatement(query);
@@ -150,6 +171,12 @@ public class AttemptDBUtil {
 		}
 	}
 	
+	/**
+	 * GEtter for attemopts based on lesson id and userid
+	 * @param lessonID
+	 * @param userID
+	 * @return attempts for the user and lesson combo. 
+	 */
 	public static ArrayList<Attempt> getAttempts(int lessonID, int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -159,7 +186,6 @@ public class AttemptDBUtil {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/WordUp", "root", "root");
 			ps = conn.prepareStatement(query);
-			System.out.println("Getting user attempts: " + lessonID + " " + userID);
 			ps.setInt(1, lessonID);
 			ps.setInt(2, userID);
 			rs = ps.executeQuery();
@@ -188,10 +214,14 @@ public class AttemptDBUtil {
 		}
 	}
 
+	/**
+	 * Joins attempt and lesson table to get more details related to lesson when dislaying the attempt
+	 * @param userID
+	 * @return
+	 */
 	public static ArrayList<LessonAttempt> getLessonAttempts(int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		System.out.println("Getting lesson attempts for user " + userID);
 		String query = "select * from Attempt inner join Lesson on Attempt.lessonID = Lesson.lessonID where Attempt.userID = ?";
 		ResultSet rs = null;
 		ArrayList<LessonAttempt> lessonAttempts = new ArrayList<LessonAttempt>();
@@ -204,7 +234,6 @@ public class AttemptDBUtil {
 			Lesson l = null;
 			Attempt a = null;
 			while (rs.next()) {
-				System.out.println("found an attempt...");
 				l = new Lesson();
 				a = new Attempt();
 				l.setTitle(rs.getString("title"));
@@ -242,6 +271,11 @@ public class AttemptDBUtil {
 		}
 	}
 	
+	/**
+	 * Represents the join between a lesson and attmpt object
+	 * @author anusha balaji 
+	 *
+	 */
 	public static class LessonAttempt {
 		private Lesson lesson; 
 		private Attempt attempt;

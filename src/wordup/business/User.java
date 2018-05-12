@@ -2,76 +2,115 @@ package wordup.business;
 
 import java.io.Serializable;
 
+/**
+ * User POJO to represent a user in system user can create/update lessons,
+ * admins can view users and lessons in system, user can take quizzes and access
+ * their scores, etc.
+ * 
+ * @author anusha balaji
+ *
+ */
 public class User implements Serializable {
 
+	// primary key and type of user (1 for customer, 0 for admin
 	private int userID, type;
-   	private String firstName;
-    private String lastName;
-    private String email;
-    private String password; 
-    private String profession;
-   //private String pwd; 
-    private String salt;
+	
+	// first name of user
+	private String firstName;
+	
+	// last name of user
+	private String lastName;
+	
+	// unique, emailid of user, used for log in
+	private String email;
+	
+	// salt + hash password
+	private String password;
+	
+	// student, teacher, academia, other user; collected for future intelligence
+	// in the app
+	private String profession;
 
-    public User() {
-        super();
-    	firstName = "";
-        lastName = "";
-        email = "";
-        type = 1;
-        password = "";
-        profession = ""; 
-        salt = ""; 
-        //pwd = "";
-    }
+	// private String pwd;
+	
+	// salt for the password (used during log in authentication) 
+	private String salt;
 
-    /**
-     * 
-     * @param firstName first name of user 
-     * @param lastName last name of user 
-     * @param email email id of user - unique 
-     * @param password hashed and salted password 
-     * @param prof profession of user ("admin", "student", "teaching professional", "other (academia)", "other") 
-     * @param type type of user; 0 for admin, 1 for other 
-     * @param pwd plain-text password - will be deleted after development 
-     * @param salt random salt to hash user passwords 
-     */
-    public User(String firstName, String lastName, String email, String password, String prof, int type, String salt) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.profession = prof;
-        this.type = type;
-        //this.pwd = pwd;
-        this.salt = salt;
-    }
+	/**
+	 * Default constructor
+	 */
+	public User() {
+		super();
+		firstName = "";
+		lastName = "";
+		email = "";
+		type = 1;
+		password = "";
+		profession = "";
+		salt = "";
+		// pwd = "";
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	/**
+	 * Overloaded constructor for user with required attributes 
+	 * @param firstName
+	 *            first name of user
+	 * @param lastName
+	 *            last name of user
+	 * @param email
+	 *            email id of user - unique
+	 * @param password
+	 *            hashed and salted password
+	 * @param prof
+	 *            profession of user ("admin", "student", "teaching
+	 *            professional", "other (academia)", "other")
+	 * @param type
+	 *            type of user; 0 for admin, 1 for other
+	 * @param pwd
+	 *            plain-text password - will be deleted after development
+	 * @param salt
+	 *            random salt to hash user passwords
+	 */
+	public User(String firstName, String lastName, String email, String password, String prof, int type, String salt) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.profession = prof;
+		this.type = type;
+		// this.pwd = pwd;
+		this.salt = salt;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	/**
+	 * Forllowing are getters and setter for all the private instance variables 
+	 * @return
+	 */
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public int getType() {
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public int getType() {
 		return type;
 	}
 
@@ -104,20 +143,6 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @return the pwd
-	 *
-	public String getPwd() {
-		return pwd;
-	}
-
-	/**
-	 * @param pwd the pwd to set
-	 *
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
-	}
-
-	/**
 	 * @return the salt
 	 */
 	public String getSalt() {
@@ -125,7 +150,8 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * @param salt the salt to set
+	 * @param salt
+	 *            the salt to set
 	 */
 	public void setSalt(String salt) {
 		this.salt = salt;

@@ -7,18 +7,35 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Bean for Lesson 
+ * Lesson Bean for allowing a user to create and maintain a Lesson with multiple
+ * cards
+ * 
  * @author abalaji
  *
  */
 public class Lesson implements Serializable {
 
-	private String title, filePath, subject, subject2, subject3, accessLevel; 
-	
-	private int lessonID, authorID; 
-	
+	/**
+	 * title - name for the lesson (required) 
+	 * filePath - absolute path for the lesson data
+	 * 		file (windows-style with '\' to separate file component nodes) (required) 
+	 * subject - for ease of maintenance and useful potential features (to get usage about
+	 * 		the app by admins, for users to assess their strengths and weakness, etc. (required) 
+	 * subject2/3 - (optional) 
+	 * accessLevel - public or private access to the quiz 
+	 */
+	private String title, filePath, subject, subject2, subject3, accessLevel;
+
+	/**
+	 * foreign key attribute for the user 
+	 */
+	private int lessonID, authorID;
+
+	/**
+	 * Automatically set in constructor
+	 */
 	private Date dateCreated;
-	
+
 	/**
 	 * default
 	 */
@@ -28,7 +45,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * Minimal constructor with all the required fields 
+	 * Minimal constructor with all the required fields
+	 * 
 	 * @param title
 	 * @param filePath
 	 * @param subject
@@ -44,16 +62,18 @@ public class Lesson implements Serializable {
 		long time = System.currentTimeMillis();
 		this.dateCreated = new Date(time);
 	}
-	
+
 	/**
-	 * Minimal constructor with all the required fields 
+	 * Minimal constructor with all the required fields
+	 * 
 	 * @param title
 	 * @param filePath
 	 * @param subject
 	 * @param accessLevel
 	 * @param authorID
 	 */
-	public Lesson(String title, String filePath, String subject, String subject2, String subject3, String accessLevel, int authorID) {
+	public Lesson(String title, String filePath, String subject, String subject2, String subject3, String accessLevel,
+			int authorID) {
 		this.title = title;
 		this.filePath = filePath;
 		this.subject = subject;
@@ -64,7 +84,7 @@ public class Lesson implements Serializable {
 		long time = System.currentTimeMillis();
 		this.dateCreated = new Date(time);
 	}
-	
+
 	/**
 	 * @return the title
 	 */
@@ -73,7 +93,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param title the title to set
+	 * @param title
+	 *            the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
@@ -87,7 +108,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param filePath the filePath to set
+	 * @param filePath
+	 *            the filePath to set
 	 */
 	public void setFilePath(String filePath) {
 		this.filePath = filePath;
@@ -101,7 +123,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param subject the subject to set
+	 * @param subject
+	 *            the subject to set
 	 */
 	public void setSubject(String subject) {
 		this.subject = subject;
@@ -115,7 +138,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param subject2 the subject2 to set
+	 * @param subject2
+	 *            the subject2 to set
 	 */
 	public void setSubject2(String subject2) {
 		this.subject2 = subject2;
@@ -129,7 +153,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param subject3 the subject3 to set
+	 * @param subject3
+	 *            the subject3 to set
 	 */
 	public void setSubject3(String subject3) {
 		this.subject3 = subject3;
@@ -143,7 +168,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param accessLevel the accessLevel to set
+	 * @param accessLevel
+	 *            the accessLevel to set
 	 */
 	public void setAccessLevel(String accessLevel) {
 		this.accessLevel = accessLevel;
@@ -157,7 +183,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param lessonID the lessonID to set
+	 * @param lessonID
+	 *            the lessonID to set
 	 */
 	public void setLessonID(int lessonID) {
 		this.lessonID = lessonID;
@@ -171,7 +198,8 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param authorID the authorID to set
+	 * @param authorID
+	 *            the authorID to set
 	 */
 	public void setAuthorID(int authorID) {
 		this.authorID = authorID;
@@ -185,13 +213,19 @@ public class Lesson implements Serializable {
 	}
 
 	/**
-	 * @param dateCreated the dateCreated to set
+	 * @param dateCreated
+	 *            the dateCreated to set
 	 */
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
-	
+
+	/**
+	 * To easy print a lesson object 
+	 * @return toString version of the current lesson 
+	 */
 	public String toString() {
 		return title + " (" + filePath + ") " + accessLevel + " lesson for " + subject;
 	}
+
 }

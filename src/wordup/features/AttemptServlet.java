@@ -41,17 +41,26 @@ public class AttemptServlet extends HttpServlet {
 	}
 
 	/**
+	 * Directs user to their View My Scores page if user is in session or does
+	 * nothing
+	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
-		ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID()); 
+		if (user == null) {
+			return;
+		}
+		ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID());
 		request.setAttribute("lessonAttempts", la);
 	}
 
 	/**
+	 * Does all controller processing for requests related to quiz attempts by
+	 * user including creatingone, scoring, emailing attempt.
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -59,18 +68,17 @@ public class AttemptServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// get current action
 		String action = request.getParameter("action");
-		System.out.println("Attempt Servlet!");
-		System.out.println("Action: " + action);
-
 		if (action == null) {
 
 			action = "refresh"; // default action
 			getServletContext().getRequestDispatcher("/welcome.jsp").forward(request, response);
 		}
+		
 		ArrayList<String> errors = new ArrayList<String>();
+		
 		// perform action and set URL to appropriate page
-		String success = "";
 		String url = "/lessons/myScores.jsp";
+		
 		if (action.equals("quiz")) { // grade quiz attempt
 			// submitted attempt
 			int lessonID = Integer.parseInt(request.getParameter("lessonID"));
@@ -93,23 +101,20 @@ public class AttemptServlet extends HttpServlet {
 				for (int i = 1; i <= cardCount; i++) {
 					String index = Integer.toString(i);
 					String resp = request.getParameter(index);
-					System.out.println("Resp " + i + ": " + resp + " ");
 					Response r = new Response(cards.get(i - 1).getCardID(), a.getAttemptID(), resp);
 					ResponseDBUtil.insert(r);
-					System.out.println("Here: " + resp + " (Key: " + cards.get(i - 1).getWord() + ") ");
 					if (resp.trim().equalsIgnoreCase(cards.get(i - 1).getWord().trim())) {
 						score += 1;
 					}
 				}
 				a.setScore(score); // only 'a' has the attemptID field set!
 				AttemptDBUtil.update(a);
-				System.out.println("updated attempt!");
 
 				doGet(request, response);
-				//request.setAttribute("responses", ResponseDBUtil.getAttemptResponses(a.getAttemptID()));
+				// request.setAttribute("responses",
+				// ResponseDBUtil.getAttemptResponses(a.getAttemptID()));
 			}
 		} else if (action.equals("scores")) {
-			System.out.println("emailing scores for you :)");
 			String strAttemptID = request.getParameter("email");
 			if (strAttemptID == null) {
 				errors.add("Unknown quiz attempt. Please login before proceeding.");
@@ -134,30 +139,23 @@ public class AttemptServlet extends HttpServlet {
 						+ "---------------------------------------------------\n\n");
 			}
 			double percent = (double) a.getScore() * 100 / cards.size();
-			body.append("Final Score: " + a.getScore() + " out of " + cards.size() + " = " + percent + "% \n===================================================\n\n");
+			body.append("Final Score: " + a.getScore() + " out of " + cards.size() + " = " + percent
+					+ "% \n===================================================\n\n");
 			boolean isBodyHTML = false;
 			try {
 				MailUtilGmail.sendMail(to, from, subject, body.toString(), isBodyHTML);
 				System.out.println("sent email!");
 			} catch (MessagingException e) {
 				System.out.println("Error sending email");
-                String errorMessage
-                    = "ERROR: Unable to send email. "
-                    + "Check Tomcat logs for details.<br>"
-                    + "NOTE: You may need to configure your system "
-                    + "as described in chapter 14.<br>"
-                    + "ERROR MESSAGE: " + e.getMessage();
-                errors.add(errorMessage);
-                request.setAttribute("errors", errors);
-                    this.log(
-                    "Unable to send email. \n"
-                    + "Here is the email you tried to send: \n"
-                    + "=====================================\n"
-                    + "TO: " + to + "\n"
-                    + "FROM: " + from + "\n"
-                    + "SUBJECT: " + subject + "\n\n"
-                    + body + "\n\n");
-            }
+				String errorMessage = "ERROR: Unable to send email. " + "Check Tomcat logs for details.<br>"
+						+ "NOTE: You may need to configure your system " + "as described in chapter 14.<br>"
+						+ "ERROR MESSAGE: " + e.getMessage();
+				errors.add(errorMessage);
+				request.setAttribute("errors", errors);
+				this.log("Unable to send email. \n" + "Here is the email you tried to send: \n"
+						+ "=====================================\n" + "TO: " + to + "\n" + "FROM: " + from + "\n"
+						+ "SUBJECT: " + subject + "\n\n" + body + "\n\n");
+			}
 
 		} else {
 			// should not be here

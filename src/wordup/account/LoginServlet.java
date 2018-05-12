@@ -16,7 +16,10 @@ import wordup.dataUtil.UserDBUtil;
 import wordup.util.PasswordUtil;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LoginServlet Handles user requests while they
+ * login
+ * 
+ * @author Anusha Balaji
  */
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -51,6 +54,9 @@ public class LoginServlet extends HttpServlet {
 	}
 
 	/**
+	 * Handles login and logout for users, creates a session if user credentials
+	 * are valid and directs them to their dashboard
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -58,7 +64,6 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// get current action
 		String action = request.getParameter("action");
-		System.out.println("Action: " + action);
 		if (action == null) {
 			action = "login";
 		}
@@ -67,6 +72,7 @@ public class LoginServlet extends HttpServlet {
 		String url = "/login.jsp";
 
 		if (action.equals("login")) {
+			// get request parameters
 			String email = request.getParameter("email");
 			String pwd = request.getParameter("password");
 			System.out.println(email + '\n' + pwd + '\n');
@@ -90,21 +96,18 @@ public class LoginServlet extends HttpServlet {
 			// see if user exists...if so, retrieve user
 			User user = UserDBUtil.getUserByEmail(email);
 			if (user == null) {
+				// unknown user 
 				errors.add("Unknown user. Please sign-up for an account before proceeding.");
-				// response.sendRedirect("register.jsp");
 			} else {
+				// user exists, authenticate them 
 				String pwd_hash = "";
 				try {
 					pwd_hash = PasswordUtil.hashPassword(pwd.trim() + user.getSalt().trim());
 				} catch (Exception e) {
-					System.out.println("Error authenticating user...");
 					errors.add("Error during authentication. Please retry");
 				}
 				if (!pwd_hash.equals(user.getPassword().trim())) {
-					//System.out.println("You entered: " + pwd + "\nActual pwd: " + user.getPwd() + "\nEntered Pwd Hash: "
-						//	+ pwd_hash);
 					errors.add("Invalid login credentials");
-					// response.sendRedirect("register.jsp");
 				} else {
 					// valid login
 					session.setAttribute("user", user);

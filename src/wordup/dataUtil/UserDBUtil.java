@@ -13,11 +13,17 @@ import java.util.ArrayList;
 import wordup.business.User;
 
 /**
- * @author anuba
+ * Handles access to the User table in database 
+ * @author anushabalaji 
  *
  */
 public class UserDBUtil {
 
+	/**
+	 * inserts the given user in the database 
+	 * @param user new user 
+	 * @return row count affected 
+	 */
 	public static int insert(User user) {
 		Connection conn;
 
@@ -52,6 +58,12 @@ public class UserDBUtil {
 		}
 	}
 
+	/**
+	 * retrieves the user with the given email if one exists 
+	 * used when authenticating users during the login process 
+	 * @param email email id of the user 
+	 * @return user if one exists or null 
+	 */
 	public static User getUserByEmail(String email) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -90,6 +102,11 @@ public class UserDBUtil {
 		} 
 	}
 
+	/**
+	 * Gets user by id 
+	 * @param userID id of the user to be retrieved 
+	 * @return user if one exists or null if no user is found with the given id 
+	 */
 	public static User getUserByID(int userID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -129,6 +146,11 @@ public class UserDBUtil {
 		} 
 	}
 	
+	/**
+	 * gets all users in the system 
+	 * admin feature 
+	 * @return users in the system 
+	 */
 	public static ArrayList<User> getUsers() {
 		Connection conn = null;
 		PreparedStatement ps = null;

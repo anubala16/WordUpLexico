@@ -1,12 +1,26 @@
 package wordup.business;
 
 import java.io.Serializable;
-
+/**
+ * User response POJO for storing user answers for a particular attempt in a quiz 
+ * Allows users to review and email score reports 
+ * @author abalaji 
+ *
+ */
 public class Response implements Serializable {
 
+	/**
+	 * Primary key and foreign keys to uniquely identify a user response in database 
+	 */
 	private int responseID, cardID, attemptID;
+	/**
+	 * actual user response 
+	 */
 	private String userResp;
 	
+	/**
+	 * Default constructor 
+	 */
 	public Response() {
 		super();
 	}
@@ -44,14 +58,15 @@ public class Response implements Serializable {
 	}
 
 	/**
-	 * @param cardID the cardID to set
+	 * @param cardID the cardID to set 
+	 * foregin key to associate response to a question/card 
 	 */
 	public void setCardID(int cardID) {
 		this.cardID = cardID;
 	}
 
 	/**
-	 * @return the attemptID
+	 * @return the attemptID 
 	 */
 	public int getAttemptID() {
 		return attemptID;

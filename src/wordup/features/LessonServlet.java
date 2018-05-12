@@ -24,9 +24,6 @@ import wordup.dataUtil.LessonDBUtil.LessonAuthor;
 /**
  * Servlet implementation class LessonServlet
  */
-// @WebServlet({ "/LessonServlet", "/lessons/create", "/lessons/study",
-// "lessons/myLessons",
-// "/lessons/quiz" })
 public class LessonServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +32,6 @@ public class LessonServlet extends HttpServlet {
 	 */
 	public LessonServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -44,17 +40,18 @@ public class LessonServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at:
-		// ").append(request.getContextPath());
 	}
 
 	/**
+	 * Handles all user requests related to lesson...including create/update
+	 * lesson, study lesson, take lesson quiz
+	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		// get current action
 		String action = request.getParameter("action");
 		System.out.println("Action: " + action);
@@ -90,25 +87,20 @@ public class LessonServlet extends HttpServlet {
 							"Unable to open file: " + path + ". Please make sure the file exists and try again.");
 				}
 				lesson = new Lesson(title, path, subject, subject2, subject3, accessLevel, user.getUserID());
-				newLesson = LessonDBUtil.getLessonByFileAndTitle(path, title); // are
-																				// we
-																				// creating
-																				// or
-																				// updating
-																				// a
-																				// lesson?
+				newLesson = LessonDBUtil.getLessonByFileAndTitle(path, title);
+				// are we creating or updatingg a lesson?
 				if (newLesson == null) { // new lesson
 					int rowCount = LessonDBUtil.insert(lesson);
 					if (rowCount == 0) {
-						throw new Exception("Error inserting the new Lesson in database. Please login again before proceeding.");
+						throw new Exception(
+								"Error inserting the new Lesson in database. Please login again before proceeding.");
 					}
 					newLesson = LessonDBUtil.getLessonByFileAndTitle(path, title);
 				} else { // lesson already exists...whose the author?
-					if (newLesson.getAuthorID() == user.getUserID()) { // original
-																		// author
-																		// is
-																		// editing
-																		// lesson
+					if (newLesson.getAuthorID() == user.getUserID()) {
+						// original author is editing lesson - so, valid
+						// request...
+
 						lesson.setLessonID(newLesson.getLessonID());
 						int rowCount = LessonDBUtil.update(lesson);
 						if (rowCount == 1) {
@@ -135,17 +127,8 @@ public class LessonServlet extends HttpServlet {
 							continue;
 						}
 						Card card = new Card(tokens[0].trim(), tokens[1].trim(), newLesson.getLessonID());
-						int rowCount = CardDBUtil.insert(card);
+						CardDBUtil.insert(card);
 					}
-					// JFileChooser fileChooser = new JFileChooser();
-					// fileChooser.addChoosableFileFilter(new
-					// FileNameExtensionFilter("TEXT Documents", "txt"));
-					// int result = fileChooser.showOpenDialog(new JFrame());
-					// if (result == JFileChooser.APPROVE_OPTION) {
-					// File selectedFile = fileChooser.getSelectedFile();
-					// System.out.println("Selected file: " +
-					// selectedFile.getAbsolutePath());
-					// }
 					scanner.close();
 				}
 			} catch (Exception e) {
@@ -161,23 +144,15 @@ public class LessonServlet extends HttpServlet {
 				request.setAttribute("success", success);
 				request.setAttribute("lesson", newLesson);
 			}
-			
-			/** done at end of method */
-			// request.setAttribute("errors", errors);
- 			// getServletContext().getRequestDispatcher(url).forward(request,
-			// response);
 		} else if (action.equals("review")) {
 			// study the lesson or take a quiz
 			String study = request.getParameter("study");
-			System.out.println("Lesson Servlet study value: " + study);
-			//String study2 = request.getParameter("study2");
 			String quizMe = request.getParameter("quizMe");
 			int lessonID = 0;
 			if (study != null) {
 				lessonID = Integer.parseInt(study);
-			} else 
+			} else
 				lessonID = Integer.parseInt(quizMe);
-			System.out.println("Lesson Servlet lesson id " + lessonID);
 			ArrayList<Card> cards = null;
 			if (lessonID != 0) {
 				cards = CardDBUtil.getLessonCards(lessonID);
@@ -189,11 +164,9 @@ public class LessonServlet extends HttpServlet {
 					request.setAttribute("lessonAuthor", la);
 					int cardCount = cards.size();
 					/**
-					int[] numbers = new int[cardCount];
-					for (int i = 0; i < cardCount; i++) {
-						numbers[i] = i+1;
-					}
-					*/
+					 * int[] numbers = new int[cardCount]; for (int i = 0; i <
+					 * cardCount; i++) { numbers[i] = i+1; }
+					 */
 					request.setAttribute("cardCount", cardCount);
 					System.out.println("found " + cardCount + " cards for lesson " + lessonID + "! ");
 				}
@@ -203,7 +176,7 @@ public class LessonServlet extends HttpServlet {
 				System.out.println("User wants to study lesson " + lessonID);
 				url = "/lessons/study.jsp";
 			} else if (quizMe != null) {
-				// quiz me button functionality
+				// quiz me button pressed
 				System.out.println("User wants to take lesson " + lessonID + " quiz.");
 				url = "/lessons/takequiz.jsp";
 			} else {

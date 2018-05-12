@@ -3,8 +3,20 @@ package wordup.business;
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * Class to represent user's attempt at a lesson quiz - includes timestamp, lessonID, userID, and score
+ * to map the attributes of an attempt 
+ * @author Anusha Balaji 
+ */
 public class Attempt implements Serializable {
 
+	/**
+	 * AttemptID - unique ID for this object 
+	 * LesosnID - id of the lesson this attempt maps to 
+	 * UserID - id of the user this attempt maps to 
+	 * score - score for the attempt 
+	 * count - to handle repeat attempts of user of the lesson quiz 
+	 */
 	private int attemptID, lessonID, userID, score, count;
 	private Date timestamp;
 	
@@ -17,7 +29,7 @@ public class Attempt implements Serializable {
 		this.timestamp = new Date(time);
 	}
 	
-	/**
+	/**Overloaded constructor for user lesson attempt 
 	 * @param lessonID
 	 * @param userID
 	 * @param score
@@ -102,6 +114,10 @@ public class Attempt implements Serializable {
 		this.timestamp = timestamp;
 	}
 	
+	/**
+	 * Setter for count of attempt 
+	 * @param count 
+	 */
 	public void setCount(int count) {
 		this.count = count;
 	}

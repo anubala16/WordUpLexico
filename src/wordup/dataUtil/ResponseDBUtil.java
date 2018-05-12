@@ -10,8 +10,18 @@ import java.util.ArrayList;
 import wordup.business.Response;
 import wordup.business.Attempt;
 
+/**
+ * Handles all access to Response table in database 
+ * @author anusha balaji 
+ *
+ */
 public class ResponseDBUtil {
 
+	/**
+	 * Inserts the given response in the database 
+	 * @param response
+	 * @return row count affected 
+	 */
 	public static int insert(Response response) {
 		Connection conn;
 
@@ -43,6 +53,11 @@ public class ResponseDBUtil {
 		}
 	}
 	
+	/**
+	 * gets response with the id given if it exists 
+	 * @param ResponseID id of the response to get 
+	 * @return Response response with given id 
+	 */
 	public static Response getResponseByID(int ResponseID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -74,8 +89,13 @@ public class ResponseDBUtil {
 			System.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
-	}
+	} 
 
+	/**
+	 * Gets responses for the provided id of attempt 
+	 * @param attemptID id of the attempt 
+	 * @return arraylist of responses for the attempt 
+	 */
 	public static ArrayList<Response> getAttemptResponses(int attemptID) {
 		Connection conn = null;
 		PreparedStatement ps = null;

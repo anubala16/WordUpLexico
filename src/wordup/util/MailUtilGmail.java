@@ -4,8 +4,24 @@ import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
+/**
+ * Email util class to send email reports to user easily from the AttemptServlet
+ * class when user requests an email report
+ * 
+ * @author abalaji 
+ *
+ */
 public class MailUtilGmail {
 
+	/**
+	 * Sends the email given the to and from address, with the given subject and body (via gmail!)
+	 * @param to recipient email address 
+	 * @param from sender email address 
+	 * @param subject subject of the email 
+	 * @param body body of the email 
+	 * @param bodyIsHTML true if email is encapsulated in html tags otherwise false (plain-text) 
+	 * @throws MessagingException if an error occurs 
+	 */
 	public static void sendMail(String to, String from, String subject, String body, boolean bodyIsHTML)
 			throws MessagingException {
 
