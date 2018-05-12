@@ -98,4 +98,7 @@ public class Card implements Serializable {
 		this.lessonID = lessonID;
 	}
 	
+	public String toString() {
+		return "Card " + cardID + ": " + word + " - " + description + " (from Lesson " + lessonID + ") ";
+	}
 }

@@ -28,9 +28,9 @@ public class AttemptDBUtil {
 		int result = 0; 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//System.out.println("Driver loaded!");
+			////system.out.println("Driver loaded!");
 		} catch (ClassNotFoundException e) {
-			//System.out.println("Another error..");
+			////system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 		try {
@@ -47,7 +47,7 @@ public class AttemptDBUtil {
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return 0;
 		}
 	}
@@ -65,9 +65,9 @@ public class AttemptDBUtil {
 		int result = 0; 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//System.out.println("Driver loaded!");
+			////system.out.println("Driver loaded!");
 		} catch (ClassNotFoundException e) {
-			//System.out.println("Another error..");
+			////system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 		
@@ -82,7 +82,7 @@ public class AttemptDBUtil {
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return 0;
 		}
 	}
@@ -119,7 +119,7 @@ public class AttemptDBUtil {
 			return a;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
@@ -149,7 +149,7 @@ public class AttemptDBUtil {
 			rs = ps.executeQuery();
 			Attempt a = null;
 			if (rs.next()) {
-				System.out.println("Found it!");
+				//system.out.println("Found it!");
 				a = new Attempt();
 				a.setLessonID(rs.getInt("lessonID"));
 				a.setUserID(rs.getInt("userID"));
@@ -163,10 +163,10 @@ public class AttemptDBUtil {
 			return a;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
+			//system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}
@@ -206,10 +206,10 @@ public class AttemptDBUtil {
 			return attempts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
+			//system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}
@@ -263,10 +263,10 @@ public class AttemptDBUtil {
 			return lessonAttempts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
+			//system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}

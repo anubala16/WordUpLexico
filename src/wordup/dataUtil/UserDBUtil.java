@@ -31,9 +31,9 @@ public class UserDBUtil {
 		String query = "insert into User (firstName, lastName, email, password, profession, type, salt) values (?, ?, ?, ?, ?, ?, ?)";
 		try {
 		    Class.forName("com.mysql.jdbc.Driver");
-		    System.out.println("Driver loaded!");
+		    //system.out.println("Driver loaded!");
 		} catch (ClassNotFoundException e) {
-		    System.out.println("Another error..");
+		    //system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 		try {
@@ -53,7 +53,7 @@ public class UserDBUtil {
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return 0;
 		}
 	}
@@ -94,10 +94,10 @@ public class UserDBUtil {
 			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-		    System.out.println("Another error..");
+		    //system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		} 
 	}
@@ -138,10 +138,10 @@ public class UserDBUtil {
 			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-		    System.out.println("Another error..");
+		    //system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		} 
 	}
@@ -182,10 +182,10 @@ public class UserDBUtil {
 			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-		    System.out.println("Another error..");
+		    //system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		} 
 	}

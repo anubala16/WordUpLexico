@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="styles/main.css" type="text/css" />
 </head>
 <nav class="navBar" >
-	orig header 1
 	<img alt="Word-Up Logo" src="images/Logo.gif" width=120>
 	<a class="menu" href="index.jsp">Home</a>
 	<a class="menu" href="faq.jsp">FAQ</a>

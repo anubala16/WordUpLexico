@@ -50,7 +50,7 @@ public class RegistrationServlet extends HttpServlet {
 		// get current action
 		String action = request.getParameter("action");
 		if (action == null) {
-			System.out.println("action is null!");
+			//system.out.println("action is null!");
 			action = ""; // default action
 			// getServletContext().getRequestDispatcher("/register").forward(request,
 			// response);
@@ -97,9 +97,9 @@ public class RegistrationServlet extends HttpServlet {
 				url = "/login.jsp";
 				try {
 					String salt = PasswordUtil.getSalt();
-					System.out.println("New salt: " + salt);
+					//system.out.println("New salt: " + salt);
 					String pwd_hash = PasswordUtil.hashPassword(pwd.trim() + salt.trim());
-					System.out.println("New pwd_hash in db: " + pwd_hash);
+					//system.out.println("New pwd_hash in db: " + pwd_hash);
 					User user = new User(fName, lName, email, pwd_hash.trim(), prof, 1, salt);
 					UserDBUtil.insert(user);
 				} catch (Exception e) {

@@ -40,12 +40,12 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getAttribute("user") != null) {
-			System.out.println("User exists!");
+			//system.out.println("User exists!");
 			String url = "/welcome.jsp";
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 		} else {
 			// user is null
-			System.out.println("User is null?!");
+			//system.out.println("User is null?!");
 			ArrayList<String> errors = new ArrayList<String>();
 			errors.add("Please login before proceeding.");
 			String url = "/login.jsp";
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
 			// get request parameters
 			String email = request.getParameter("email");
 			String pwd = request.getParameter("password");
-			System.out.println(email + '\n' + pwd + '\n');
+			//system.out.println(email + '\n' + pwd + '\n');
 			HttpSession session = request.getSession();
 			ArrayList<String> errors = new ArrayList<String>();
 			session.setMaxInactiveInterval(-1);
@@ -110,13 +110,20 @@ public class LoginServlet extends HttpServlet {
 					errors.add("Invalid login credentials");
 				} else {
 					// valid login
+					String salt = PasswordUtil.getSalt();
+					try {
+					String pwd2 = PasswordUtil.hashPassword("pwd" + salt);
+					//system.out.println("Salt: " + salt + "\nPassword: " + pwd2 + "\n");
+					} catch (Exception e) {
+						//system.out.println(e.getMessage());
+					}
 					session.setAttribute("user", user);
 					url = "/welcome.jsp";
 				}
 			}
 
 			request.setAttribute("errors", errors);
-			System.out.println("done with login servlet");
+			//system.out.println("done with login servlet");
 			getServletContext().getRequestDispatcher(url).forward(request, response);
 
 		} else if (action.equals("logout")) {

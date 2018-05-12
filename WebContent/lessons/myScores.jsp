@@ -22,6 +22,7 @@
 			</c:forEach>
 		</table>
 	</c:if>
+	<p class="successMsg">${success}</p>
 	<form action="viewMyScores" method="post">
 		<input type="hidden" name="action" value="scores">
 		<table>

@@ -124,6 +124,7 @@ td.errorMsg {
 	color: #ff0000;
 	font-weight: bold;
 	background-color: #ffe6e6;
+	width: 100px;
 }
 
 .container {

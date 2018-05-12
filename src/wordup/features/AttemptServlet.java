@@ -23,6 +23,8 @@ import wordup.dataUtil.CardDBUtil;
 import wordup.dataUtil.LessonDBUtil;
 import wordup.dataUtil.ResponseDBUtil;
 import wordup.dataUtil.LessonDBUtil.LessonAuthor;
+import wordup.util.Email;
+//import wordup.util.MailUtilGmail;
 import wordup.util.MailUtilGmail;
 
 /**
@@ -51,10 +53,12 @@ public class AttemptServlet extends HttpServlet {
 			throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null) {
+			request.removeAttribute("success");
 			return;
 		}
 		ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID());
 		request.setAttribute("lessonAttempts", la);
+		request.removeAttribute("success");
 	}
 
 	/**
@@ -73,12 +77,12 @@ public class AttemptServlet extends HttpServlet {
 			action = "refresh"; // default action
 			getServletContext().getRequestDispatcher("/welcome.jsp").forward(request, response);
 		}
-		
+
 		ArrayList<String> errors = new ArrayList<String>();
-		
+
 		// perform action and set URL to appropriate page
 		String url = "/lessons/myScores.jsp";
-		
+
 		if (action.equals("quiz")) { // grade quiz attempt
 			// submitted attempt
 			int lessonID = Integer.parseInt(request.getParameter("lessonID"));
@@ -94,7 +98,7 @@ public class AttemptServlet extends HttpServlet {
 				Attempt newAttempt = new Attempt(lessonID, userID, count);
 				int rowCount = AttemptDBUtil.insert(newAttempt);
 				if (rowCount == 1) {
-					System.out.println("Inserted attempt...");
+					// system.out.println("Inserted attempt...");
 				}
 				Attempt a = AttemptDBUtil.getAttempt(lessonID, userID, count);
 				int score = 0;
@@ -126,11 +130,14 @@ public class AttemptServlet extends HttpServlet {
 			Lesson l = LessonDBUtil.getLessonByID(a.getLessonID());
 			ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
 			ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
+			
 			String to = "abalaji@uncc.edu";
 			String from = "admin@wordup.com";
-			from = "abalaji@uncc.edu";
-			String subject = "WordUp Score Report: " + l.getTitle() + "(Attempt: " + a.getCount() + ")";
+			String subject = "Your WordUp Score Report: " + l.getTitle() + " (Attempt: " + a.getCount() + ")";
 			StringBuilder body = new StringBuilder();
+			User user = (User) request.getSession().getAttribute("user");
+			body.append("Username: " + user.getEmail() + "\nLesson Name: " + l.getTitle() + "\nAttempt Date: "
+					+ a.getTimestamp() + "\n_____________________________________________________________________ \n\n\n");
 			for (int i = 0; i < cards.size(); i++) {
 				int num = i + 1;
 				body.append("Prompt " + num + ": " + cards.get(i).getDescription() + "\n\n");
@@ -141,12 +148,12 @@ public class AttemptServlet extends HttpServlet {
 			double percent = (double) a.getScore() * 100 / cards.size();
 			body.append("Final Score: " + a.getScore() + " out of " + cards.size() + " = " + percent
 					+ "% \n===================================================\n\n");
-			boolean isBodyHTML = false;
+			// boolean isBodyHTML = false;
 			try {
-				MailUtilGmail.sendMail(to, from, subject, body.toString(), isBodyHTML);
+				MailUtilGmail.sendMail(to, from, subject, body.toString(), false);
 				System.out.println("sent email!");
-			} catch (MessagingException e) {
-				System.out.println("Error sending email");
+			} catch (Exception e) {
+				// system.out.println("Error sending email");
 				String errorMessage = "ERROR: Unable to send email. " + "Check Tomcat logs for details.<br>"
 						+ "NOTE: You may need to configure your system " + "as described in chapter 14.<br>"
 						+ "ERROR MESSAGE: " + e.getMessage();
@@ -156,11 +163,13 @@ public class AttemptServlet extends HttpServlet {
 						+ "=====================================\n" + "TO: " + to + "\n" + "FROM: " + from + "\n"
 						+ "SUBJECT: " + subject + "\n\n" + body + "\n\n");
 			}
+			request.setAttribute("success", "Score Report sent!");
+			doGet(request, response);
 
 		} else {
 			// should not be here
 			// for debugging purposes only
-			System.out.println("Null lesson when submitting attempt!");
+			// system.out.println("Null lesson when submitting attempt!");
 		}
 
 		request.setAttribute("errors", errors);

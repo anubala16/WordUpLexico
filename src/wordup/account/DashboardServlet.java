@@ -115,7 +115,7 @@ public class DashboardServlet extends HttpServlet {
 				errors.add("You are unauthorized to view this page. Please sign-in as an admin beofre proceeding.");
 			}
 		} else {
-			// System.out.println("Unknown value. Not sure what to do");
+			// //system.out.println("Unknown value. Not sure what to do");
 			request.removeAttribute("lesson");
 			url = "/welcome.jsp";
 		}

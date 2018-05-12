@@ -30,9 +30,9 @@ public class ResponseDBUtil {
 		int result = 0; 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			//System.out.println("Driver loaded!");
+			////system.out.println("Driver loaded!");
 		} catch (ClassNotFoundException e) {
-			//System.out.println("Another error..");
+			////system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 		try {
@@ -41,14 +41,14 @@ public class ResponseDBUtil {
 			ps.setString(1, response.getUserResp());
 			ps.setInt(2, response.getCardID());
 			ps.setInt(3, response.getAttemptID());
-			System.out.println("inserting response");
+			//system.out.println("inserting response");
 			result = ps.executeUpdate();
 			ps.close();
 			conn.close();
 			return result;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return 0;
 		}
 	}
@@ -83,10 +83,10 @@ public class ResponseDBUtil {
 			return r;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
+			//system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	} 
@@ -99,7 +99,7 @@ public class ResponseDBUtil {
 	public static ArrayList<Response> getAttemptResponses(int attemptID) {
 		Connection conn = null;
 		PreparedStatement ps = null;
-		String query = "select * from Response where attemptID = ?";
+		String query = "select * from Response where attemptID = ? order by cardID asc";
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -122,10 +122,10 @@ public class ResponseDBUtil {
 			return responses;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println(e.getStackTrace());
+			//system.out.println(e.getStackTrace());
 			return null;
 		} catch (ClassNotFoundException e) {
-			System.out.println("Another error..");
+			//system.out.println("Another error..");
 			throw new IllegalStateException("Cannot find the driver in the classpath!", e);
 		}
 	}

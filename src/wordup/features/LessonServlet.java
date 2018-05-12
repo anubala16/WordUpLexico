@@ -54,7 +54,7 @@ public class LessonServlet extends HttpServlet {
 
 		// get current action
 		String action = request.getParameter("action");
-		System.out.println("Action: " + action);
+		//system.out.println("Action: " + action);
 
 		if (action == null) {
 
@@ -73,7 +73,7 @@ public class LessonServlet extends HttpServlet {
 			String subject3 = request.getParameter("subject3");
 			String accessLevel = request.getParameter("access");
 			User user = (User) request.getSession().getAttribute("user");
-			System.out.println("creating lesson.." + path);
+			//system.out.println("creating lesson.." + path);
 
 			if (user == null) {
 			}
@@ -104,12 +104,12 @@ public class LessonServlet extends HttpServlet {
 						lesson.setLessonID(newLesson.getLessonID());
 						int rowCount = LessonDBUtil.update(lesson);
 						if (rowCount == 1) {
-							System.out.println("Lesson updated!");
+							//system.out.println("Lesson updated!");
 							success = "Success! Updated your older lesson :)";
 							request.setAttribute("lesson", newLesson);
 							rowCount = LessonDBUtil.deleteCards(lesson.getLessonID());
 						} else {
-							System.out.println("Error updating lesson...");
+							//system.out.println("Error updating lesson...");
 						}
 					} else { // different author trying to create/modify a
 								// lesson with same name and file
@@ -123,7 +123,7 @@ public class LessonServlet extends HttpServlet {
 						String line = scanner.nextLine().trim();
 						String[] tokens = line.split(": ");
 						if (tokens.length != 2) {
-							System.out.println("invalid line, ignored card creation for line.");
+							//system.out.println("invalid line, ignored card creation for line.");
 							continue;
 						}
 						Card card = new Card(tokens[0].trim(), tokens[1].trim(), newLesson.getLessonID());
@@ -168,20 +168,20 @@ public class LessonServlet extends HttpServlet {
 					 * cardCount; i++) { numbers[i] = i+1; }
 					 */
 					request.setAttribute("cardCount", cardCount);
-					System.out.println("found " + cardCount + " cards for lesson " + lessonID + "! ");
+					//system.out.println("found " + cardCount + " cards for lesson " + lessonID + "! ");
 				}
 			}
 			if (study != null) {
 				// study button pressed
-				System.out.println("User wants to study lesson " + lessonID);
+				//system.out.println("User wants to study lesson " + lessonID);
 				url = "/lessons/study.jsp";
 			} else if (quizMe != null) {
 				// quiz me button pressed
-				System.out.println("User wants to take lesson " + lessonID + " quiz.");
+				//system.out.println("User wants to take lesson " + lessonID + " quiz.");
 				url = "/lessons/takequiz.jsp";
 			} else {
 				// refresh
-				System.out.println("Refreshing browse page. ");
+				//system.out.println("Refreshing browse page. ");
 				url = "/lessons/browse.jsp";
 			}
 		}
