@@ -110,13 +110,6 @@ public class LoginServlet extends HttpServlet {
 					errors.add("Invalid login credentials");
 				} else {
 					// valid login
-					String salt = PasswordUtil.getSalt();
-					try {
-					String pwd2 = PasswordUtil.hashPassword("pwd" + salt);
-					//system.out.println("Salt: " + salt + "\nPassword: " + pwd2 + "\n");
-					} catch (Exception e) {
-						//system.out.println(e.getMessage());
-					}
 					session.setAttribute("user", user);
 					url = "/welcome.jsp";
 				}

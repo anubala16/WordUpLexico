@@ -23,8 +23,6 @@ import wordup.dataUtil.CardDBUtil;
 import wordup.dataUtil.LessonDBUtil;
 import wordup.dataUtil.ResponseDBUtil;
 import wordup.dataUtil.LessonDBUtil.LessonAuthor;
-import wordup.util.Email;
-//import wordup.util.MailUtilGmail;
 import wordup.util.MailUtilGmail;
 
 /**
@@ -120,50 +118,73 @@ public class AttemptServlet extends HttpServlet {
 			}
 		} else if (action.equals("scores")) {
 			String strAttemptID = request.getParameter("email");
-			if (strAttemptID == null) {
+			String strAttemptID2 = request.getParameter("review");
+			if (strAttemptID == null && strAttemptID2 == null) {
 				errors.add("Unknown quiz attempt. Please login before proceeding.");
-				url = "/login.jsp";
+				//url = "/login.jsp";
 				getServletContext().getRequestDispatcher(url).forward(request, response);
 			}
-			int attemptID = Integer.parseInt(strAttemptID);
-			Attempt a = AttemptDBUtil.getAttemptById(attemptID);
-			Lesson l = LessonDBUtil.getLessonByID(a.getLessonID());
-			ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
-			ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
-			
-			String to = "abalaji@uncc.edu";
-			String from = "admin@wordup.com";
-			String subject = "Your WordUp Score Report: " + l.getTitle() + " (Attempt: " + a.getCount() + ")";
-			StringBuilder body = new StringBuilder();
-			User user = (User) request.getSession().getAttribute("user");
-			body.append("Username: " + user.getEmail() + "\nLesson Name: " + l.getTitle() + "\nAttempt Date: "
-					+ a.getTimestamp() + "\n_____________________________________________________________________ \n\n\n");
-			for (int i = 0; i < cards.size(); i++) {
-				int num = i + 1;
-				body.append("Prompt " + num + ": " + cards.get(i).getDescription() + "\n\n");
-				body.append("Your Answer: " + responses.get(i).getUserResp() + "\n");
-				body.append("Correct Answer: " + cards.get(i).getWord() + "\n"
-						+ "---------------------------------------------------\n\n");
+			if (strAttemptID2 != null) {
+				// view attempt button pressed 
+				int attemptID = Integer.parseInt(strAttemptID2);
+				Attempt a = AttemptDBUtil.getAttemptById(attemptID);
+				Lesson l = LessonDBUtil.getLessonByID(a.getLessonID());
+				ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
+				ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
+				LessonAuthor la = LessonDBUtil.getLessonAuthor(l.getLessonID());
+				
+				request.setAttribute("cardCount", cards.size());
+				request.setAttribute("attempt", a);
+				request.setAttribute("lessonAuthor", la);
+				request.setAttribute("cards", cards);
+				request.setAttribute("resps", responses);
+				url = "/lessons/viewAttempt.jsp";
+			} else if (strAttemptID != null) {
+				// email button pressed
+				int attemptID = Integer.parseInt(strAttemptID);
+				Attempt a = AttemptDBUtil.getAttemptById(attemptID);
+				Lesson l = LessonDBUtil.getLessonByID(a.getLessonID());
+				ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
+				ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
+				LessonAuthor la = LessonDBUtil.getLessonAuthor(l.getLessonID());
+				
+				String to = "abalaji@uncc.edu";
+				String from = "admin@wordup.com";
+				String subject = "Your WordUp Score Report: " + l.getTitle() + " (Attempt: " + a.getCount() + ")";
+				StringBuilder body = new StringBuilder();
+				User user = (User) request.getSession().getAttribute("user");
+				body.append("Username: " + user.getEmail() + "\nLesson Name: " + l.getTitle() + "\nAttempt Date: "
+						+ a.getTimestamp()
+						+ "\n_____________________________________________________________________ \n\n\n");
+				for (int i = 0; i < cards.size(); i++) {
+					int num = i + 1;
+					body.append("Prompt " + num + ": " + cards.get(i).getDescription() + "\n\n");
+					body.append("Your Answer: " + responses.get(i).getUserResp() + "\n");
+					body.append("Correct Answer: " + cards.get(i).getWord() + "\n"
+							+ "---------------------------------------------------\n\n");
+				}
+				double percent = (double) a.getScore() * 100 / cards.size();
+				body.append("Final Score: " + a.getScore() + " out of " + cards.size() + " = " + percent
+						+ "% \n===================================================\n\n");
+				// boolean isBodyHTML = false;
+				try {
+					MailUtilGmail.sendMail(to, from, subject, body.toString(), false);
+					System.out.println("sent email!");
+				} catch (Exception e) {
+					// system.out.println("Error sending email");
+					String errorMessage = "ERROR: Unable to send email. " + "Check Tomcat logs for details.<br>"
+							+ "NOTE: You may need to configure your system " + "as described in chapter 14.<br>"
+							+ "ERROR MESSAGE: " + e.getMessage();
+					errors.add(errorMessage);
+					request.setAttribute("errors", errors);
+					this.log("Unable to send email. \n" + "Here is the email you tried to send: \n"
+							+ "=====================================\n" + "TO: " + to + "\n" + "FROM: " + from + "\n"
+							+ "SUBJECT: " + subject + "\n\n" + body + "\n\n");
+				}
+				request.setAttribute("success", "Score Report sent!");
 			}
-			double percent = (double) a.getScore() * 100 / cards.size();
-			body.append("Final Score: " + a.getScore() + " out of " + cards.size() + " = " + percent
-					+ "% \n===================================================\n\n");
-			// boolean isBodyHTML = false;
-			try {
-				MailUtilGmail.sendMail(to, from, subject, body.toString(), false);
-				System.out.println("sent email!");
-			} catch (Exception e) {
-				// system.out.println("Error sending email");
-				String errorMessage = "ERROR: Unable to send email. " + "Check Tomcat logs for details.<br>"
-						+ "NOTE: You may need to configure your system " + "as described in chapter 14.<br>"
-						+ "ERROR MESSAGE: " + e.getMessage();
-				errors.add(errorMessage);
-				request.setAttribute("errors", errors);
-				this.log("Unable to send email. \n" + "Here is the email you tried to send: \n"
-						+ "=====================================\n" + "TO: " + to + "\n" + "FROM: " + from + "\n"
-						+ "SUBJECT: " + subject + "\n\n" + body + "\n\n");
-			}
-			request.setAttribute("success", "Score Report sent!");
+
+			request.setAttribute("errors", errors);
 			doGet(request, response);
 
 		} else {

@@ -42,6 +42,8 @@
 					<td><strong>${lessonAttempt.attempt.score}</strong> out of <strong>${lessonAttempt.qCount}</strong> points<br>=> <strong>${lessonAttempt.percent}%</strong></td>
 					<td>${lessonAttempt.attempt.timestamp}</td>
 					<td>
+						<button type="submit" id="email" name="review"
+							value="${lessonAttempt.attempt.attemptID}">Review Attempt</button>
 						<button type="submit" id="email" name="email"
 							value="${lessonAttempt.attempt.attemptID}">Email My
 							Score Report</button>
