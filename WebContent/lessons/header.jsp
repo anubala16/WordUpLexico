@@ -9,25 +9,6 @@
 <link rel="stylesheet" href="../styles/main.css" type="text/css" />
 </head>
 <nav class="navBar"> 
-<!-- 
-<c:if test="${lesson == null}">
-	<img alt="Word-Up Logo" src="/images/Logo.gif" width=120>
-	<a class="menu" href="index.jsp">Home</a>
-	<a class="menu" href="faq.jsp">FAQ</a>
-	<a class="menu" href="register.jsp">Sign-up!</a>
-	<a class="menu" href="login.jsp">Login</a>
-	<a class="menu" href="sitemap.jsp">Sitemap</a>
-	<a class="menu" href="contact.jsp">Contact US</a>
-</c:if> <c:if test="${lesson != null}">
-	<img alt="Word-Up Logo" src="../images/Logo.gif" width=120>
-	<a class="menu" href="../index.jsp">Home</a>
-	<a class="menu" href="../faq.jsp">FAQ</a>
-	<a class="menu" href="../register.jsp">Sign-up!</a>
-	<a class="menu" href="../login.jsp">Login</a>
-	<a class="menu" href="../sitemap.jsp">Sitemap</a>
-	<a class="menu" href="../contact.jsp">Contact US</a>
-</c:if> 
- -->
  	<img alt="Word-Up Logo" src="/images/Logo.gif" width=120>
 	<a class="menu" href="index.jsp">Home</a>
 	<a class="menu" href="faq.jsp">FAQ</a>

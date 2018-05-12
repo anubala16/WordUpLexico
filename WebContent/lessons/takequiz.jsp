@@ -17,27 +17,27 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
-	<div class="title">${lessonAuthor.lesson.title}</div>
-	<div class="impMsg">By ${lessonAuthor.author}, on
-		${lessonAuthor.lesson.dateCreated}</div>
-	<div class="impMsg">Subject: ${lessonAuthor.lesson.subject}</div>
+	<div class="title"><c:out value='${lessonAuthor.lesson.title}'/></div>
+	<div class="impMsg"><c:out value='By ${lessonAuthor.author}, on
+		${lessonAuthor.lesson.dateCreated}'/></div>
+	<div class="impMsg"><c:out value='Subject: ${lessonAuthor.lesson.subject}'/></div>
 	<br>
 	<form action="gradeattempt" method="post">
 		<input type="hidden" name="action" value="quiz"> 
-		<c:forEach var="card" items="${cards}" begin="0" end="${ cardCount }"
+		<c:forEach var="card" items="${cards}" begin="0" end="${cardCount}"
 		step="1" varStatus="status">
-		<div class="question">${status.count}. ${card.description}</div>
-		<label>Response: </label> <input type="text" name="${status.count}" id="resp" value=""
+		<div class="question"><c:out value='${status.count}. ${card.description}'/></div>
+		<label>Response: </label> <input type="text" name="<c:out value='${status.count}'/>" id="resp" value=""
 			required><br> 
 		<br> 
 		</c:forEach>
 		<input type="hidden"
-					id="lessonID" name="lessonID" value="${lessonAuthor.lesson.lessonID}">	
+					id="lessonID" name="lessonID" value="<c:out value='${lessonAuthor.lesson.lessonID}'/>">	
 		<input type="submit" id="done" name="submitQuiz" value="Submit Attempt">
 	</form>
 

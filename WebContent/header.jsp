@@ -13,7 +13,6 @@
 	<a class="menu" href="faq.jsp">FAQ</a>
 	<a class="menu" href="register.jsp">Sign-up!</a>
 	<a class="menu" href="login.jsp">Login</a> 
-	<!--  Add logout too as appropriate -->
 	<a class="menu" href="sitemap.jsp">Sitemap</a>
 	<a class="menu" href="contact.jsp">Contact US</a>
 </nav>

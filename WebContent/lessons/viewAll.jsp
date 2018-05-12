@@ -17,7 +17,7 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -36,15 +36,15 @@
 			</thead>
 			<c:forEach var="lessonAuthor" items="${lessonAuthors}">
 				<tr>
-					<td>${lessonAuthor.lesson.lessonID}</td>
-					<td>${lessonAuthor.lesson.title}</td>
-					<td>${lessonAuthor.author} (User ID: ${lessonAuthor.lesson.authorID})</td>
-					<td>${lessonAuthor.lesson.subject}</td>
-					<td>${lessonAuthor.lesson.accessLevel}</td>
-					<td>${lessonAuthor.lesson.dateCreated}</td>
+					<td><c:out value='${lessonAuthor.lesson.lessonID}'/></td>
+					<td><c:out value='${lessonAuthor.lesson.title}'/></td>
+					<td><c:out value='${lessonAuthor.author} (User ID: ${lessonAuthor.lesson.authorID})'/></td>
+					<td><c:out value='${lessonAuthor.lesson.subject}'/></td>
+					<td><c:out value='${lessonAuthor.lesson.accessLevel}'/></td>
+					<td><c:out value='${lessonAuthor.lesson.dateCreated}'/></td>
 					<td>
 						<button type="submit" id="viewLesson" name="study"
-							value="${lessonAuthor.lesson.lessonID}">View Lesson</button>
+							value="<c:out value='${lessonAuthor.lesson.lessonID}'/>">View Lesson</button>
 					</td>
 				</tr>
 			</c:forEach>

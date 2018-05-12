@@ -17,22 +17,22 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
-	<div class="title">${lessonAuthor.lesson.title}</div>
-	<div class="impMsg">By ${lessonAuthor.author}, on
-		${lessonAuthor.lesson.dateCreated}</div>
+	<div class="title"><c:out value='${lessonAuthor.lesson.title}'/></div>
+	<div class="impMsg"><c:out value='By ${lessonAuthor.author}, on
+		${lessonAuthor.lesson.dateCreated}'/></div>
 	<div class="impMsg">Subject: ${lessonAuthor.lesson.subject}</div>
 	<br>
 	<form action="gradeattempt" method="post">
 		<input type="hidden" name="action" value="quiz"> 
 		<c:forEach var="card" items="${cards}" begin="0" end="${cardCount}"
 		step="1" varStatus="status">
-		<div class="question">${status.count}. ${card.description}</div>
-		<label>Response: </label> <input type="text" name="${status.count}" id="resp" value="${resps[status.index].userResp}"
+		<div class="question"><c:out value='${status.count}. ${card.description}'/></div>
+		<label>Response: </label> <input type="text" name="${status.count}" id="resp" value="<c:out value='${resps[status.index].userResp}'/>"
 			disabled><br> 
 		<br> 
 		</c:forEach>

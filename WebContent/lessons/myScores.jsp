@@ -17,12 +17,12 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
-	<p class="successMsg">${success}</p>
+	<p class="successMsg"><C:out value='${success}'/></p>
 	<form action="viewMyScores" method="post">
 		<input type="hidden" name="action" value="scores">
 		<table>
@@ -36,16 +36,16 @@
 			</thead>
 			<c:forEach var="lessonAttempt" items="${lessonAttempts}">
 				<tr>
-					<td>${lessonAttempt.lesson.lessonID}</td>
-					<td>${lessonAttempt.lesson.title}</td>
-					<td>${lessonAttempt.attempt.count}</td>
-					<td><strong>${lessonAttempt.attempt.score}</strong> out of <strong>${lessonAttempt.qCount}</strong> points<br>=> <strong>${lessonAttempt.percent}%</strong></td>
-					<td>${lessonAttempt.attempt.timestamp}</td>
+					<td><c:out value='${lessonAttempt.lesson.lessonID}'/></td>
+					<td><c:out value='${lessonAttempt.lesson.title}'/></td>
+					<td><c:out value='${lessonAttempt.attempt.count}'/></td>
+					<td><strong><c:out value='${lessonAttempt.attempt.score}'/></strong> out of <strong><c:out value='${lessonAttempt.qCount}'/></strong> points<br><strong>=> ${lessonAttempt.percent}%</strong></td>
+					<td><c:out value='${lessonAttempt.attempt.timestamp}'/></td>
 					<td>
 						<button type="submit" id="email" name="review"
-							value="${lessonAttempt.attempt.attemptID}">Review Attempt</button>
+							value="<c:out value='${lessonAttempt.attempt.attemptID}'/>">Review Attempt</button>
 						<button type="submit" id="email" name="email"
-							value="${lessonAttempt.attempt.attemptID}">Email My
+							value="<c:out value='${lessonAttempt.attempt.attemptID}'/>">Email My
 							Score Report</button>
 					</td>
 				</tr>

@@ -17,25 +17,25 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
 	</c:if>
-	<div class="title">${lessonAuthor.lesson.title}</div>
-	<div class="impMsg">By ${lessonAuthor.author}, on
-		${lessonAuthor.lesson.dateCreated}</div>
-	<div class="impMsg">Subject: ${lessonAuthor.lesson.subject}</div>
+	<div class="title"><c:out value='${lessonAuthor.lesson.title}'/></div>
+	<div class="impMsg">By <c:out value='${lessonAuthor.author}'/>, on
+		<c:out value='${lessonAuthor.lesson.dateCreated}'/></div>
+	<div class="impMsg">Subject: <c:out value='${lessonAuthor.lesson.subject}'/></div>
 	<br>
-	<c:forEach var="card" items="${cards}" begin="0" end="${ cardCount }"
+	<c:forEach var="card" items="${cards}" begin="0" end="${cardCount}"
 		step="1" varStatus="status">
 
 		<table>
 			<tr>
-				<td class="cardWord">${status.count}.${card.word}</td>
+				<td class="cardWord"><c:out value='${status.count}.${card.word}'/></td>
 			</tr>
 			<tr>
-				<td class="cardDesc">${card.description}</td>
+				<td class="cardDesc"><c:out value='${card.description}'/></td>
 			</tr>
 		</table>
 		<br>

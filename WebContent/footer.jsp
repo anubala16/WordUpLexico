@@ -4,7 +4,7 @@
     GregorianCalendar currentDate = new GregorianCalendar();
     int currentYear = currentDate.get(Calendar.YEAR);
 %>
-<p class="footer" >&copy; Copyright <%= currentYear %> Anusha Balaji, UNCC</p>
+<p class="footer">&copy; Copyright <%= currentYear %> Anusha Balaji, UNCC</p>
 
 </body>
 </html>

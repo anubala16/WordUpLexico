@@ -17,7 +17,7 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -32,11 +32,11 @@
 		</thead>
 		<c:forEach var="user" items="${users}">
 			<tr>
-				<td>${user.userID}</td>
-				<td>${user.firstName}</td>
-				<td>${user.lastName}</td>
-				<td>${user.email}</td>
-				<td>${user.profession}</td>
+				<td><c:out value='${user.userID}'/></td>
+				<td><c:out value='${user.firstName}'/></td>
+				<td><c:out value='${user.lastName}'/></td>
+				<td><c:out value='${user.email}'/></td>
+				<td><c:out value='${user.profession}'/></td>
 			</tr>
 		</c:forEach>
 	</table>

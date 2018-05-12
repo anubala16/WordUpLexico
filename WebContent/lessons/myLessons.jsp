@@ -17,7 +17,7 @@
 		<table>
 			<c:forEach var="error" items="${errors}">
 				<tr>
-					<td class="errorMsg">${error}</td>
+					<td class="errorMsg"><c:out value='${error}'/></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -33,12 +33,12 @@
 		</thead>
 		<c:forEach var="lesson" items="${lessons}">
 			<tr>
-				<td>${lesson.lessonID}</td>
-				<td class="">${lesson.title}</td>
-				<td>${lesson.filePath}</td>
-				<td>${lesson.subject}</td>
-				<td>${lesson.accessLevel}</td>
-				<td>${lesson.dateCreated}</td>
+				<td><c:out value='${lesson.lessonID}'/></td>
+				<td><c:out value='${lesson.title}'/></td>
+				<td><c:out value='${lesson.filePath}'/></td>
+				<td><c:out value='${lesson.subject}'/></td>
+				<td><c:out value='${lesson.accessLevel}'/></td>
+				<td><c:out value='${lesson.dateCreated}'/></td>
 			</tr>
 		</c:forEach>
 	</table>

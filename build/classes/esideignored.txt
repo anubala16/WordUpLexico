@@ -1,0 +1,7 @@
+LessonServlet.java|56|1537|1567|ESIDE potential security vulnerability: accessing unvalidated input|2
+LessonServlet.java|56|1535|1565|ESIDE potential security vulnerability: accessing unvalidated input|2
+AttemptServlet.java|86|2791|2823|ESIDE potential security vulnerability: accessing unvalidated input|2
+AttemptServlet.java|120|4204|4233|ESIDE potential security vulnerability: accessing unvalidated input|2
+AttemptServlet.java|121|4262|4292|ESIDE potential security vulnerability: accessing unvalidated input|2
+AttemptServlet.java|72|2326|2356|ESIDE potential security vulnerability: accessing unvalidated input|2
+AttemptServlet.java|105|3639|3666|ESIDE potential security vulnerability: accessing unvalidated input|2

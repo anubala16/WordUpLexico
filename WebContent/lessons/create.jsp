@@ -16,7 +16,7 @@
 	<table>
 		<c:forEach var="error" items="${errors}">
 			<tr>
-				<td class="errorMsg">${error}</td>
+				<td class="errorMsg"><c:out value='${error}'/></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -98,11 +98,11 @@
 	</c:if>
 	<c:if test="${lesson != null }">
 		<label>Lesson Name: </label>
-		<input type="text" name="title" id="title" value="${lesson.title}" disabled>
+		<input type="text" name="title" id="title" value="<c:out value='${lesson.title}'/>" disabled>
 		<br>
 		<br>
 		<label>Link to File: </label>
-		<input type="text" name="file" id="file" value="${lesson.filePath}" disabled>
+		<input type="text" name="file" id="file" value="<c:out value='${lesson.filePath}'/>" disabled>
 		<br>
 		<br>
 		<label>Subject: </label>
@@ -125,7 +125,7 @@
 		<br>
 		<br>
 		<label>Subject 2: </label>
-		<select class="input" name="subject2" id="subject2" value="${lesson.subject2}" disabled>
+		<select class="input" name="subject2" id="subject2" disabled>
 			<option value="" selected>Please Choose One</option>
 			<option value="Arts" <% if(request.getParameter("subject2").equals("Arts")) { out.println("selected"); }  %>>Arts</option>
 			<option value="Biology" <% if(request.getParameter("subject2").equals("Biology")) { out.println("selected"); }  %>>Biology</option>
@@ -144,7 +144,7 @@
 		<br>
 		<br>
 		<label>Subject 3: </label>
-		<select class="input" name="subject3" id="subject3" value="${lesson.subject3}" disabled>
+		<select class="input" name="subject3" id="subject3" disabled>
 			<option value="" selected>Please Choose One</option>
 			<option value="Arts" <% if(request.getParameter("subject3").equals("Arts")) { out.println("selected"); }  %>>Arts</option>
 			<option value="Biology" <% if(request.getParameter("subject3").equals("Biology")) { out.println("selected"); }  %>>Biology</option>
@@ -163,7 +163,7 @@
 		<br>
 		<br>
 		<label>Whom to Share this Lesson with?</label>
-		<select class="input" name="access" id="access" value="${lesson.accessLevel}" disabled>
+		<select class="input" name="access" id="access" disabled>
 			<option value="private" <% if(request.getParameter("access").equals("private")) { out.println("selected"); }  %>>Go Private</option>
 			<option value="public" <% if(request.getParameter("access").equals("public")) { out.println("selected"); }  %>>Go Public!</option>
 		</select>

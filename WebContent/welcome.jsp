@@ -17,7 +17,7 @@
 		<c:choose>
 			<c:when test="${user.type == 1}">
 				<!-- regular user -->
-				<p>Welcome, ${user.firstName}! You are logged in as a
+				<p>Welcome, <c:out value="${user.firstName}"/>! You are logged in as a
 					teacher/student.</p>
 				<br>
 				<input type="hidden" name="action" value="not sure">
@@ -32,7 +32,7 @@
 			</c:when>
 			<c:when test="${user.type == 0}">
 				<!-- type = 0; admin user -->
-				<p>Hello, ${user.firstName}! You are logged in as an admin.</p>
+				<p>Hello, <c:out value="${user.firstName}"/>! You are logged in as an admin.</p>
 				<br>
 				<input type="hidden" name="action" value="admin">
 				<input type="submit" id="done" name="adminLessons"
