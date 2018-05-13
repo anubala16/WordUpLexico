@@ -58,7 +58,7 @@ public class AttemptServlet extends HttpServlet {
 		request.setAttribute("lessonAttempts", la);
 		@SuppressWarnings("unchecked")
 		ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
-		if (errors.size() > 0) {
+		if (errors != null && errors.size() > 0) {
 			request.removeAttribute("success");
 		}
 	}
