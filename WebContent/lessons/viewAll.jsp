@@ -10,7 +10,7 @@
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 
 <header>
-	<h1>Lesson Catalog</h1>
+	<h1>View Lesson Catalog</h1>
 </header>
 <section>
 	<c:if test="${errors != null }">

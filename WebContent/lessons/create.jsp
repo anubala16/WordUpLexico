@@ -27,7 +27,7 @@
 		<p class="impMsg">Note: Please ensure each line in the material
 			file only has one word and definition/description. Each word and its
 			definition must be separated by a colon ':' character.</p>
-		<p class="impMsg">Warning! Please ensure tile and file path is
+		<p class="impMsg">Warning! Please ensure title and file path is
 			unique for each lesson or an older lesson will be overriden.</p>
 		<div class="container">
 			<form action="lesson" method="post">

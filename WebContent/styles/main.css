@@ -124,7 +124,6 @@ td.errorMsg {
 	color: #ff0000;
 	font-weight: bold;
 	background-color: #ffe6e6;
-	width: 100px;
 }
 
 .container {
@@ -179,24 +178,31 @@ th {
 	border-bottom: 10px solid black;
 	padding: 20px;
 }
-
+/**
+td {
+	word-wrap: break-word;
+	overflow: hidden;
+}
+*/
 tr:hover, td:hover {
 	background-color: #4a0868;
 	color: white;
 }
 
 table {
-	table-layout: auto;
+	table-layout: fixed;
 	background-color: #ffffff;
 	padding: 2px;
 	margin: 20px;
 	white-space: nowrap;
 	align: center;
+	/**width: 350px;*/
 }
 
 td, tr {
 	padding: 1.1em;
 	text-align: center;
+	/**overflow: hidden;*/
 }
 
 td.cardWord {

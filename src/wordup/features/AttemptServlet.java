@@ -56,7 +56,11 @@ public class AttemptServlet extends HttpServlet {
 		}
 		ArrayList<LessonAttempt> la = AttemptDBUtil.getLessonAttempts(user.getUserID());
 		request.setAttribute("lessonAttempts", la);
-		request.removeAttribute("success");
+		@SuppressWarnings("unchecked")
+		ArrayList<String> errors = (ArrayList<String>) request.getAttribute("errors");
+		if (errors.size() > 0) {
+			request.removeAttribute("success");
+		}
 	}
 
 	/**
@@ -121,18 +125,18 @@ public class AttemptServlet extends HttpServlet {
 			String strAttemptID2 = request.getParameter("review");
 			if (strAttemptID == null && strAttemptID2 == null) {
 				errors.add("Unknown quiz attempt. Please login before proceeding.");
-				//url = "/login.jsp";
+				// url = "/login.jsp";
 				getServletContext().getRequestDispatcher(url).forward(request, response);
 			}
 			if (strAttemptID2 != null) {
-				// view attempt button pressed 
+				// view attempt button pressed
 				int attemptID = Integer.parseInt(strAttemptID2);
 				Attempt a = AttemptDBUtil.getAttemptById(attemptID);
 				Lesson l = LessonDBUtil.getLessonByID(a.getLessonID());
 				ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
 				ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
 				LessonAuthor la = LessonDBUtil.getLessonAuthor(l.getLessonID());
-				
+
 				request.setAttribute("cardCount", cards.size());
 				request.setAttribute("attempt", a);
 				request.setAttribute("lessonAuthor", la);
@@ -147,7 +151,7 @@ public class AttemptServlet extends HttpServlet {
 				ArrayList<Card> cards = CardDBUtil.getLessonCards(l.getLessonID());
 				ArrayList<Response> responses = ResponseDBUtil.getAttemptResponses(attemptID);
 				LessonAuthor la = LessonDBUtil.getLessonAuthor(l.getLessonID());
-				
+
 				String to = "abalaji@uncc.edu";
 				String from = "admin@wordup.com";
 				String subject = "Your WordUp Score Report: " + l.getTitle() + " (Attempt: " + a.getCount() + ")";
@@ -182,6 +186,7 @@ public class AttemptServlet extends HttpServlet {
 							+ "SUBJECT: " + subject + "\n\n" + body + "\n\n");
 				}
 				request.setAttribute("success", "Score Report sent!");
+				System.out.println("Success message set");
 			}
 
 			request.setAttribute("errors", errors);

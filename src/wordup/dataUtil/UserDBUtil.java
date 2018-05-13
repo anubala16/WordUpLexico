@@ -46,7 +46,7 @@ public class UserDBUtil {
 			ps.setString(5, user.getProfession());
 			ps.setInt(6, user.getType());
 			//ps.setString(7, user.getPwd());
-			ps.setString(8, user.getSalt());
+			ps.setString(7, user.getSalt());
 			int result = ps.executeUpdate();
 			ps.close();
 			conn.close();

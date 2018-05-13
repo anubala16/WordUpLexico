@@ -34,6 +34,7 @@
 		<div class="question"><c:out value='${status.count}. ${card.description}'/></div>
 		<label>Response: </label> <input type="text" name="${status.count}" id="resp" value="<c:out value='${resps[status.index].userResp}'/>"
 			disabled><br> 
+		<div class="question"><strong><c:out value='Correct Answer: ${card.word}'/></strong></div>
 		<br> 
 		</c:forEach>
 		
